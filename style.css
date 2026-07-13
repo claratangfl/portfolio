@@ -171,6 +171,22 @@ h1, h2, h3 { font-family: var(--font-display); }
   margin-bottom: 1.25rem;
 }
 
+.wave {
+  display: inline-block;
+  font-size: 0.82em;
+  transform-origin: 72% 78%;
+  animation: wave 2.4s ease-in-out 0.6s 2;
+}
+
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+
 /* ── Case Study Cards (Landing) ──────────────── */
 .cards {
   display: grid;
@@ -437,6 +453,19 @@ h1, h2, h3 { font-family: var(--font-display); }
 
 .callout strong { color: var(--accent); }
 
+/* ── Contact link ────────────────────────────── */
+.contact-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}
+
+.contact-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
 /* ── Footer ──────────────────────────────────── */
 .footer {
   padding: 2.5rem 0 3.5rem;
@@ -462,5 +491,5 @@ h1, h2, h3 { font-family: var(--font-display); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  * { transition: none !important; }
+  * { transition: none !important; animation: none !important; }
 }

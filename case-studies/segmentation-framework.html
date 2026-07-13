@@ -26,11 +26,11 @@
 
 <main class="container">
 
-  <!-- Executive Summary -->
+  <!-- Context -->
   <section class="section">
-    <h2>Executive Summary</h2>
-    <p>The platform's existing segmentation told Marketing <em>who was active</em>, but not <em>what to do about it</em>. Two candidates with identical activity levels could be in completely different mindsets: one passively browsing at lunch, the other applying to everything they can find. Sending them the same email means one message is always wrong.</p>
-    <p>I designed a lifecycle-based segmentation framework with six stages, mapped each stage to specific marketing actions (both below and above the line), specified the technical requirements to keep it running, and analysed a sample dataset to validate the approach.</p>
+    <h2>Context</h2>
+    <p>A major job platform wanted a segmentation framework that could drive relevant, timely communication through a candidate's job search. Its existing segments described who was active, but not what to do about it. Two candidates with identical activity could be in completely different mindsets: one browsing idly at lunch, the other applying to everything in sight. Send them the same email and one message is always wrong.</p>
+    <p>I designed a lifecycle segmentation framework with six stages, mapped each stage to specific marketing actions below and above the line, set out the technical requirements to keep it running, and tested it against a sample of 283 candidates. Conversion ranged from 12.0% to 16.4% across segments, and distinct timing and channel patterns showed when and how each group should be reached.</p>
 
     <div class="stats">
       <div class="stat">
@@ -58,9 +58,9 @@
     <p>The platform already had candidate segments, but they described activity levels rather than intent. The brief asked for a framework that could drive "relevant and timely communications through the job search process." That is a lifecycle prompt: the segmentation needs to tell Marketing what action to take, when, and through which channel.</p>
     <p>I evaluated three possible segmentation axes:</p>
     <ul>
-      <li><strong>Demographic</strong> (industry, seniority): tells Marketing <em>who</em> someone is, but not what to do</li>
+      <li><strong>Demographic</strong> (industry, seniority): tells Marketing who someone is, but not what to do</li>
       <li><strong>Value-based</strong> (engagement score): ranks candidates, but does not map to actions</li>
-      <li><strong>Lifecycle stage</strong>: tells Marketing <em>what to do</em>, because each stage implies a different message, channel, and frequency</li>
+      <li><strong>Lifecycle stage</strong>: tells Marketing what to do, because each stage implies a different message, channel, and frequency</li>
     </ul>
     <p>The test: what would change in the email a candidate receives depending on which segment they are in? If the answer is "not much," the segmentation is not actionable enough.</p>
   </section>
@@ -98,7 +98,7 @@
     <p>One refinement worth making in version two: Dormant covers two meaningfully different states. A candidate pausing their search needs a different win-back approach to one who disengaged because they found a job. Splitting these, or at least tagging the likely cause from prior-stage behaviour, would sharpen the re-engagement strategy.</p>
 
     <h3>Enrichment attributes</h3>
-    <p>The lifecycle stage tells Marketing <em>what</em> to say. Enrichment attributes tell them <em>how</em> to reach the candidate: industry preference, channel preference, peak activity time, profile completeness, location, and career level. Each attribute has a reliability rating, because Marketing should not personalise by industry if a candidate has only viewed 3 jobs.</p>
+    <p>The lifecycle stage tells Marketing what to say. Enrichment attributes tell them how to reach the candidate: industry preference, channel preference, peak activity time, profile completeness, location, and career level. Each attribute has a reliability rating, because Marketing should not personalise by industry if a candidate has only viewed 3 jobs.</p>
   </section>
 
   <!-- 3. Marketing Application -->
