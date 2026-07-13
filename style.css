@@ -132,7 +132,6 @@ h1, h2, h3 { font-family: var(--font-display); }
 /* ── Hero ────────────────────────────────────── */
 .hero {
   padding: 6rem 0 3rem;
-  max-width: 780px;
 }
 
 .hero h1 {
@@ -140,14 +139,26 @@ h1, h2, h3 { font-family: var(--font-display); }
   font-weight: 600;
   letter-spacing: -0.005em;
   line-height: 1.05;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   text-wrap: balance;
 }
 
 .hero p {
   font-size: 1.2rem;
   color: var(--text-muted);
-  max-width: 60ch;
+  max-width: 62ch;
+  margin-bottom: 1.1rem;
+}
+
+.hero p:last-of-type { margin-bottom: 0; }
+
+.hero__note {
+  font-size: 0.92rem !important;
+  line-height: 1.6;
+  margin-top: 1.9rem !important;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--hairline);
+  max-width: 58ch;
 }
 
 .hero__label {
