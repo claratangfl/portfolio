@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MQL-to-SAL Pipeline Analysis | Clara Tang</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container--wide nav__inner">
+    <a href="../index.html" class="nav__brand">Clara Tang</a>
+    <ul class="nav__links">
+      <li><a href="../index.html#case-studies">All Case Studies</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="case-hero container">
+  <span class="case-hero__tag">Revenue Operations</span>
+  <h1>Why MQL-to-SAL Conversion Was Falling: A Pipeline Diagnosis</h1>
+  <p class="case-hero__meta">Inbound lead analysis &middot; 33,076 leads &middot; 30/60/90 day action plan</p>
+</header>
+
+<main class="container">
+
+  <!-- Executive Summary -->
+  <section class="section">
+    <h2>Executive Summary</h2>
+    <p>Inbound lead volume spiked 3,270% from December 2022 to January 2023 (40 to 2,703 leads per month). The MQL-to-SAL conversion rate declined in lockstep and never recovered. This analysis identifies three root causes: capacity constraints on the SDR team, data quality issues at point of capture, and insufficient lead qualification criteria. Solutions are structured across 30, 60, and 90 day horizons.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat__value">33,076</span>
+        <span class="stat__label">Total leads analysed</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">3,270%</span>
+        <span class="stat__label">Volume increase (Dec-Jan)</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">27%</span>
+        <span class="stat__label">MQLs exceeding 2-day SLA</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">1,342</span>
+        <span class="stat__label">Leads stuck at "New" status</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Volume vs Conversion -->
+  <section class="section">
+    <h2>1. The Volume Spike Broke the Pipeline</h2>
+    <p>Lead volume jumped from 40 in December 2022 to 2,703 in January 2023, and remained elevated through the analysis period. The MQL-to-SAL conversion rate declined correspondingly, becoming more pronounced from June to August 2023.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Lead volume vs MQL-to-SAL conversion rate (2023)</div>
+      <canvas id="chart-volume"></canvas>
+      <p class="chart-note">Monthly volumes and January's 96% conversion rate are computed from the data. The conversion line for subsequent months is directional, illustrating the sustained decline through to August. August volume reflects a partial month.</p>
+    </div>
+
+    <div class="callout">
+      <strong>Key signal:</strong> Despite the massive volume increase, January 2023 still maintained a 96% conversion rate, suggesting initial sales management of the pipeline. The sustained decline in subsequent months indicates capacity constraints catching up.
+    </div>
+
+    <p>A point-in-time check revealed 1,342 leads with status marked as "New" that had not been actioned. The trend of unconverted leads roughly mirrors the overall volume spike, signalling that the team could not process leads at the rate they were arriving.</p>
+  </section>
+
+  <!-- 2. Lead Quality -->
+  <section class="section">
+    <h2>2. More Volume Brought More Waste</h2>
+    <p>The top reason for lead loss: unqualified leads. The trend mirrors the volume spike from early 2023. Breaking down the sub-reasons reveals structural issues in the pipeline.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Lead loss reasons breakdown</div>
+      <canvas id="chart-loss"></canvas>
+      <p class="chart-note">Indicative composition. Verified anchors from the data: unqualified leads are the top loss reason, 15% of lost leads had invalid contact information, and 875 losses carried no documented reason at all.</p>
+    </div>
+
+    <h3>Data quality at the source</h3>
+    <ul>
+      <li><strong>15% of lost leads</strong> were due to invalid contact information (incorrect or outdated phone/email)</li>
+      <li>Disqualified leads were disproportionately related to <strong>client size mismatch</strong>, suggesting a need for earlier segmentation visibility</li>
+      <li><strong>875 lost leads</strong> had no documented loss reason at all</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Key finding:</strong> The volume spike did not just add more leads. It changed the composition of the pipeline, introducing a higher proportion of leads that could never convert. Without front-end filtering, the SDR team was spending time on leads that should never have reached them.
+    </div>
+  </section>
+
+  <!-- 3. Capacity Analysis -->
+  <section class="section">
+    <h2>3. Capacity Was Evenly Stretched, Not Unevenly Distributed</h2>
+    <p>The top 8 lead owners each managed 3.9% to 4.7% of 2023 volume, a relatively even distribution. This rules out a single bottleneck owner as the cause. The problem is systemic: everyone is overloaded equally.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Lead distribution by owner (2023, top 8)</div>
+      <canvas id="chart-owners"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Lead Owner</th><th>Total Leads (2023)</th><th>% of Total</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Owner 1</td><td>1,491</td><td>4.74%</td></tr>
+          <tr><td>Owner 2</td><td>1,429</td><td>4.54%</td></tr>
+          <tr><td>Owner 3</td><td>1,382</td><td>4.39%</td></tr>
+          <tr><td>Owner 4</td><td>1,281</td><td>4.07%</td></tr>
+          <tr><td>Owner 5</td><td>1,262</td><td>4.01%</td></tr>
+          <tr><td>Owner 6</td><td>1,253</td><td>3.98%</td></tr>
+          <tr><td>Owner 7</td><td>1,227</td><td>3.90%</td></tr>
+          <tr><td>Owner 8</td><td>1,225</td><td>3.89%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. Root Cause -->
+  <section class="section">
+    <h2>4. Root Cause Assessment</h2>
+
+    <h3>Process and capacity constraints</h3>
+    <ul>
+      <li><strong>SLA compliance gaps:</strong> 27% of MQLs exceed the 2-day follow-up threshold, contributing to lead aging</li>
+      <li><strong>Volume-driven deterioration:</strong> the 2023 spike strained SDR capacity, reducing contact attempt quality</li>
+      <li><strong>Unclear acceptance criteria:</strong> SAL conversion standards lack auditability</li>
+    </ul>
+
+    <h3>System issues</h3>
+    <ul>
+      <li><strong>Conversion rate masking:</strong> low MQL-to-SAL conversion may artificially inflate win rates, obscuring pipeline health</li>
+      <li><strong>Attribution gaps:</strong> Originating Lead ID and Lead ID fields show no matches between datasets, preventing opportunity-level analysis</li>
+    </ul>
+
+    <h3>Data quality issues</h3>
+    <ul>
+      <li><strong>Insufficient sub-categorisation:</strong> "Disqualified" lacks granularity on customer segmentation</li>
+      <li><strong>No validation at point of capture:</strong> no standardised checks for phone (E.164) or email (MX/DNS)</li>
+      <li><strong>Undocumented losses:</strong> 875 leads lost with no recorded reason</li>
+    </ul>
+  </section>
+
+  <!-- 5. Action Plan -->
+  <section class="section">
+    <h2>5. Recommended Action Plan</h2>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Implementation timeline: actions by horizon</div>
+      <canvas id="chart-timeline"></canvas>
+    </div>
+
+    <h3>30 days: immediate stabilisation</h3>
+    <ul>
+      <li><strong>Data quality enforcement:</strong> implement form-level validation (E.164 phone, MX/DNS email checks, SMTP verification)</li>
+      <li><strong>Mandate critical fields:</strong> title, function, region, company size for segmentation</li>
+      <li><strong>Deploy enrichment layer:</strong> append industry, employee count, HQ country, tech stack to prioritise high-value leads</li>
+      <li><strong>Segmentation-based routing:</strong> create a high-priority queue for enterprise segment leads</li>
+      <li><strong>Monitoring:</strong> daily MQL-to-SAL dashboard by segment, owner, and SLA compliance with automated alerts</li>
+    </ul>
+
+    <h3>60 days: process optimisation</h3>
+    <ul>
+      <li>Enforce 1-2 hour MQL-to-SDR SLA with manager escalation</li>
+      <li>Audit lead assignment rules and field mapping logic</li>
+      <li>Analyse correlation between response time, contact attempts, and conversion</li>
+      <li>Implement mandatory loss sub-reasons for all dispositioned leads</li>
+    </ul>
+
+    <h3>90 days: strategic alignment</h3>
+    <ul>
+      <li>Review sales compensation to balance conversion rate alongside win rate</li>
+      <li>Analyse lead owner distribution for workload equity and skill-based routing</li>
+      <li>Establish closed-loop feedback from Sales to Marketing on lead quality by source and campaign</li>
+    </ul>
+  </section>
+
+  <!-- Methodology -->
+  <section class="section">
+    <h2>6. Methodology</h2>
+    <ul>
+      <li>Dataset: 33,076 leads with MQL and SAL timestamps, lead status, loss reasons, and owner assignments</li>
+      <li>Missing SAL dates were treated as leads not yet converted to SAL</li>
+      <li>August 2023 data appears incomplete (dataset maximum date is early August); trend analysis accounts for this</li>
+      <li>Opportunities dataset was excluded due to lack of linkage between Lead ID and Originating Lead ID fields. Resolving this mapping would enable revenue impact quantification.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer container">
+  <p><a href="../index.html">&larr; Back to all case studies</a></p>
+  <p>Clara Tang &middot; 2026</p>
+</footer>
+
+<script>
+const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const cssVars = getComputedStyle(document.documentElement);
+const gridColor = isDark ? 'rgba(150,160,172,0.14)' : 'rgba(32,41,58,0.08)';
+const textColor = cssVars.getPropertyValue('--text-muted').trim();
+Chart.defaults.color = textColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+Chart.defaults.font.size = 12.5;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+const blue = cssVars.getPropertyValue('--chart-1').trim();
+const orange = cssVars.getPropertyValue('--chart-2').trim();
+const green = cssVars.getPropertyValue('--chart-3').trim();
+const purple = cssVars.getPropertyValue('--chart-4').trim();
+const red = cssVars.getPropertyValue('--chart-5').trim();
+const teal = cssVars.getPropertyValue('--chart-6').trim();
+const grey = isDark ? '#5c6673' : '#a8adb6';
+
+// Volume vs Conversion
+new Chart(document.getElementById('chart-volume'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    datasets: [
+      {
+        label: 'Lead volume',
+        data: [2703, 5559, 4302, 4254, 5514, 4519, 3879, 750],
+        backgroundColor: blue,
+        yAxisID: 'y',
+        order: 2
+      },
+      {
+        label: 'MQL→SAL conversion rate',
+        data: [96, 88, 82, 78, 74, 65, 58, 52],
+        type: 'line',
+        borderColor: red,
+        backgroundColor: 'transparent',
+        tension: 0.3,
+        pointRadius: 4,
+        yAxisID: 'y1',
+        order: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, position: 'left', title: { display: true, text: 'Lead volume' } },
+      y1: { beginAtZero: true, max: 100, position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Conversion rate' } }
+    }
+  }
+});
+
+// Lead loss reasons
+new Chart(document.getElementById('chart-loss'), {
+  type: 'bar',
+  data: {
+    labels: ['Unqualified', 'Invalid contact info', 'Client size mismatch', 'No documented reason', 'Duplicate', 'Other'],
+    datasets: [{
+      label: 'Lost leads',
+      data: [4200, 2100, 1800, 875, 650, 1375],
+      backgroundColor: [red, orange, purple, grey, teal, blue]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true } }
+  }
+});
+
+// Lead owner distribution
+new Chart(document.getElementById('chart-owners'), {
+  type: 'bar',
+  data: {
+    labels: ['Owner 1', 'Owner 2', 'Owner 3', 'Owner 4', 'Owner 5', 'Owner 6', 'Owner 7', 'Owner 8'],
+    datasets: [{
+      label: 'Total leads (2023)',
+      data: [1491, 1429, 1382, 1281, 1262, 1253, 1227, 1225],
+      backgroundColor: blue
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+// Timeline
+new Chart(document.getElementById('chart-timeline'), {
+  type: 'bar',
+  data: {
+    labels: ['30 days', '60 days', '90 days'],
+    datasets: [
+      { label: 'Data quality', data: [3, 1, 0], backgroundColor: blue },
+      { label: 'Process', data: [2, 3, 1], backgroundColor: orange },
+      { label: 'Strategy', data: [0, 0, 3], backgroundColor: green }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + ' actions' } }
+    },
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true, ticks: { callback: v => v + ' actions' }, title: { display: true, text: 'Number of initiatives' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

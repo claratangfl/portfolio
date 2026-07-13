@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refer a Friend: Referral Quality Analysis | Clara Tang</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container--wide nav__inner">
+    <a href="../index.html" class="nav__brand">Clara Tang</a>
+    <ul class="nav__links">
+      <li><a href="../index.html#case-studies">All Case Studies</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="case-hero container">
+  <span class="case-hero__tag">Customer Intelligence</span>
+  <h1>Refer a Friend: What the Data Tells Us About Referral Quality</h1>
+  <p class="case-hero__meta">Neobank referral program &middot; Jan/Feb 2021 cohort, five years on &middot; 6,393 referrals</p>
+</header>
+
+<main class="container">
+
+  <!-- Executive Summary -->
+  <section class="section">
+    <h2>Executive Summary</h2>
+    <p>Doubling the referral bonus from $5 to $10 tripled volume but attracted customers who were less likely to stay. February's cost per active customer ($74) is 2.4x January's ($31). Each extra customer the higher bonus attracted cost $116 to acquire.</p>
+    <p>The bonus amount is not the main problem. The two biggest drivers of whether a referred customer stays are <strong>card activation</strong> (50% retention vs 3.5%) and <strong>inviter quality</strong> (50% vs 21%). The bonus cohort difference is a distant third.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat__value">6,393</span>
+        <span class="stat__label">Referrals analysed</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">2.4x</span>
+        <span class="stat__label">Cost per active (Feb vs Jan)</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">46.7pts</span>
+        <span class="stat__label">Card activation retention gap</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">33%</span>
+        <span class="stat__label">Potential cost reduction</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Funnel Comparison -->
+  <section class="section">
+    <h2>1. The $10 Bonus Worked Too Well</h2>
+    <p>When the bonus doubled in February, daily referrals jumped from about 55 to 168. But new customers were less likely to engage and stay at every step. The gap widens at each milestone, reaching 16 percentage points by long-term retention.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Customer journey funnel: Jan ($5) vs Feb ($10)</div>
+      <canvas id="chart-funnel"></canvas>
+    </div>
+
+    <div class="callout">
+      <strong>Key finding:</strong> February's higher bonus brought 2.75x the volume but the quality gap compounds at every milestone, from 9 points at funding down to 16 points at retention.
+    </div>
+  </section>
+
+  <!-- 2. Ghosts and Gamers -->
+  <section class="section">
+    <h2>2. More Money Brought More Ghosts</h2>
+    <p>One in five February referrals disappeared within a week. I split the waste into two groups:</p>
+    <ul>
+      <li><strong>Ghosts:</strong> no real activity within 7 days. February had 750 (16%), up from 183 (11%) in January.</li>
+      <li><strong>Bonus gamers:</strong> made 5 quick purchases to collect the bonus, then left within 45 days. February had 127 (2.7%), up from 13 (0.8%) in January.</li>
+    </ul>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Waste breakdown: ghosts and gamers by cohort</div>
+      <canvas id="chart-waste"></canvas>
+    </div>
+
+    <p>Together, these two groups cost $18,810, which is 17% of February's total spend going to people who were never going to stay. January's waste rate was 8%.</p>
+  </section>
+
+  <!-- 3. Cost Analysis -->
+  <section class="section">
+    <h2>3. The Real Cost Is the Customers Who Don't Stick</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th></th><th>Jan ($5 bonus)</th><th>Feb ($10 bonus)</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Referrals</td><td>1,700</td><td>4,693</td><td>2.75x</td></tr>
+          <tr><td>Signup bonuses</td><td>$17,000</td><td>$93,860</td><td>5.5x</td></tr>
+          <tr><td>5-purchase bonuses</td><td>$7,970</td><td>$16,680</td><td>2.1x</td></tr>
+          <tr><td><strong>Total cost</strong></td><td><strong>$24,970</strong></td><td><strong>$110,540</strong></td><td><strong>4.4x</strong></td></tr>
+          <tr><td>Still active (2026)</td><td>817 (48%)</td><td>1,496 (32%)</td><td>1.8x</td></tr>
+          <tr><td><strong>Cost per active customer</strong></td><td><strong>$30.56</strong></td><td><strong>$73.89</strong></td><td><strong>2.4x</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Cost per active customer: Jan vs Feb</div>
+      <canvas id="chart-cost"></canvas>
+    </div>
+
+    <div class="callout">
+      <strong>Marginal cost:</strong> The higher bonus brought ~3,000 extra referrals, but only ~760 are still active. That is <strong>$116 per extra active customer</strong>, nearly 4x January's cost.
+    </div>
+  </section>
+
+  <!-- 4. Retention Predictors -->
+  <section class="section">
+    <h2>4. What Actually Predicts Whether Someone Stays?</h2>
+    <p>I ranked every factor in the data by how much it affects 5-year retention. Card activation is by far the strongest factor. Inviter quality is second. The bonus cohort difference is third and less than half the size of card activation.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Retention impact by factor (percentage point difference)</div>
+      <canvas id="chart-predictors"></canvas>
+    </div>
+
+    <p>These factors stack. Customers who activated their card, funded their account, had an active inviter, and came from a single-referral inviter retain at <strong>65.4%</strong>. The average is 36.2%.</p>
+  </section>
+
+  <!-- 5. Card Activation -->
+  <section class="section">
+    <h2>5. The Card Makes the Difference</h2>
+    <p>Customers who activated their physical card: <strong>50% still active</strong>. Those who never activated: <strong>3.5%</strong>. There is no gradual decline. It drops off a cliff.</p>
+    <p>To check whether activating the card is a cause or just a signal of engagement, I controlled for prior behaviour. Even among highly engaged customers (funded, purchased, made 5+ purchases), the gap holds.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Retention rate: card activated vs not, across engagement levels</div>
+      <canvas id="chart-card"></canvas>
+    </div>
+
+    <div class="callout">
+      <strong>Key finding:</strong> Even among customers who made 5+ purchases, those without a card are only 18% active vs 58% with one. The card turns an app into a wallet habit. 75% of activators do it within 30 days, but timing does not matter: whether someone activated on day 8 or day 200, retention is about 50%.
+    </div>
+  </section>
+
+  <!-- 6. Inviter Quality -->
+  <section class="section">
+    <h2>6. Inviter Quality Drives Everything</h2>
+
+    <h3>More referrals per inviter means lower retention</h3>
+    <p>Inviters who refer 5+ people produce customers with 16% retention, compared to 43% for single-referral inviters. They are sharing links widely rather than making genuine recommendations.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Retention by referrals per inviter</div>
+      <canvas id="chart-inviter"></canvas>
+    </div>
+
+    <h3>Inviter quality is a two-step chain</h3>
+    <p>Inviter quality drives card activation, and card activation drives retention. The best inviters (active, single referral, 6+ months tenure) produce 84% card activation and 55% retention. The least engaged inviters produce 52% card activation and 17% retention.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Inviter tier: card activation rate vs retention rate</div>
+      <canvas id="chart-inviter-chain"></canvas>
+    </div>
+  </section>
+
+  <!-- 7. Counterfactual -->
+  <section class="section">
+    <h2>7. What the Program Could Look Like</h2>
+    <p>I modelled what would happen if we had restricted who could refer in February. Just requiring an active inviter cuts cost per active customer by 27%. Adding a referral cap brings it further down.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Cost per active customer under different policy scenarios</div>
+      <canvas id="chart-counterfactual"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>Referrals</th><th>Still active</th><th>Cost</th><th>Cost/active</th><th>Saving</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Current program</td><td>4,693</td><td>1,496</td><td>$110,540</td><td>$74</td><td>&mdash;</td></tr>
+          <tr><td>Active inviter only</td><td>2,280</td><td>1,036</td><td>$55,590</td><td>$54</td><td>-27%</td></tr>
+          <tr><td>Active + max 3 referrals</td><td>2,123</td><td>996</td><td>$52,100</td><td>$52</td><td>-30%</td></tr>
+          <tr><td><strong>Active + max 1 referral</strong></td><td><strong>1,521</strong></td><td><strong>776</strong></td><td><strong>$38,150</strong></td><td><strong>$49</strong></td><td><strong>-33%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. Recommendations -->
+  <section class="section">
+    <h2>8. Recommendations</h2>
+
+    <h3>Do first</h3>
+    <ol>
+      <li><strong>Only let active, tenured customers refer.</strong> Require the inviter to be active and have been on the platform for at least 3 months. This cuts cost per active customer by 27%.</li>
+      <li><strong>Cap referrals at 1-2 per inviter.</strong> People who refer 5+ others produce customers with 16% retention. A cap corrects volume-over-quality incentives without hurting genuine word-of-mouth.</li>
+    </ol>
+
+    <h3>Schedule</h3>
+    <ol start="3">
+      <li><strong>Push card activation in the first 30 days.</strong> Reminders for people who have funded but not activated could convert the group most likely to respond.</li>
+      <li><strong>Test the bonus amount properly.</strong> Run an A/B test: $5 with restrictions vs $10 without.</li>
+    </ol>
+
+    <h3>Worth investigating</h3>
+    <ul>
+      <li>Revenue per customer: is "still active" actually a good measure of value?</li>
+      <li>Referral chains: do good customers become good inviters?</li>
+      <li>Card delivery speed: faster delivery might close the gap between sign-up and activation.</li>
+      <li>Funded but no card: ~1,000 customers put money in but never activated. A targeted prompt could convert them.</li>
+    </ul>
+  </section>
+
+  <!-- 9. Methodology -->
+  <section class="section">
+    <h2>9. Methodology and Caveats</h2>
+    <ul>
+      <li>This is two months of data, not an experiment. The January vs February difference could partly reflect seasonality.</li>
+      <li>No revenue data. "Still active" (transacted within 30 days of data extract) is a proxy.</li>
+      <li>7 duplicate rows were removed (6,393 unique referrals from 6,400 rows).</li>
+      <li>Inviter identity is approximate, grouped by a combination of inviter attributes.</li>
+      <li>The card activation finding is a strong correlation, not a proven cause.</li>
+      <li>Geography and generation were explored but mostly set aside: 93% of referrals are within the same state (too little variation to learn from), the Jan vs Feb quality gap held across all states, and only same-generation referral showed a measurable effect (+4.0 points).</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer container">
+  <p><a href="../index.html">&larr; Back to all case studies</a></p>
+  <p>Clara Tang &middot; 2026</p>
+</footer>
+
+<script>
+// ── Chart defaults ──────────────────────────────
+const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const cssVars = getComputedStyle(document.documentElement);
+const gridColor = isDark ? 'rgba(150,160,172,0.14)' : 'rgba(32,41,58,0.08)';
+const textColor = cssVars.getPropertyValue('--text-muted').trim();
+
+Chart.defaults.color = textColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+Chart.defaults.font.size = 12.5;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 12;
+
+const blue = cssVars.getPropertyValue('--chart-1').trim();
+const orange = cssVars.getPropertyValue('--chart-2').trim();
+const green = cssVars.getPropertyValue('--chart-3').trim();
+const purple = cssVars.getPropertyValue('--chart-4').trim();
+const red = cssVars.getPropertyValue('--chart-5').trim();
+const teal = cssVars.getPropertyValue('--chart-6').trim();
+const grey = isDark ? '#5c6673' : '#a8adb6';
+
+// ── 1. Funnel Chart ─────────────────────────────
+new Chart(document.getElementById('chart-funnel'), {
+  type: 'bar',
+  data: {
+    labels: ['Funded account', 'Made a purchase', 'Made 5 purchases', 'Earned bonus', 'Still active (2026)'],
+    datasets: [
+      { label: 'Jan ($5 bonus)', data: [89, 82, 75, 47, 48], backgroundColor: blue },
+      { label: 'Feb ($10 bonus)', data: [80, 77, 61, 36, 32], backgroundColor: orange }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// ── 2. Waste Chart ──────────────────────────────
+new Chart(document.getElementById('chart-waste'), {
+  type: 'bar',
+  data: {
+    labels: ['Ghosts', 'Bonus gamers'],
+    datasets: [
+      { label: 'Jan ($5 bonus)', data: [11, 0.8], backgroundColor: blue },
+      { label: 'Feb ($10 bonus)', data: [16, 2.7], backgroundColor: orange }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// ── 3. Cost Chart ───────────────────────────────
+new Chart(document.getElementById('chart-cost'), {
+  type: 'bar',
+  data: {
+    labels: ['Cost per referral', 'Cost per active customer'],
+    datasets: [
+      { label: 'Jan ($5 bonus)', data: [14.69, 30.56], backgroundColor: blue },
+      { label: 'Feb ($10 bonus)', data: [23.55, 73.89], backgroundColor: orange }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.raw.toFixed(2) } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => '$' + v } }
+    }
+  }
+});
+
+// ── 4. Predictors Chart ─────────────────────────
+new Chart(document.getElementById('chart-predictors'), {
+  type: 'bar',
+  data: {
+    labels: ['Card activation', 'Inviter still active', 'Jan vs Feb cohort', 'Same-generation referral'],
+    datasets: [{
+      label: 'Retention difference (percentage points)',
+      data: [46.7, 28.4, 16.2, 4.0],
+      backgroundColor: [blue, orange, green, purple]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '+' + ctx.raw + ' pts' } }
+    },
+    scales: {
+      x: { beginAtZero: true, ticks: { callback: v => '+' + v + ' pts' } }
+    }
+  }
+});
+
+// ── 5. Card Activation Chart ────────────────────
+new Chart(document.getElementById('chart-card'), {
+  type: 'bar',
+  data: {
+    labels: ['All customers', 'Funded and purchased', 'Made 5+ purchases', ['Funded + purchased', '+ active inviter']],
+    datasets: [
+      { label: 'Card activated', data: [50.2, 54.7, 57.8, 64.4], backgroundColor: green },
+      { label: 'No card', data: [3.5, 11.7, 18.1, 17.6], backgroundColor: red }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 70, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// ── 6a. Inviter Referral Count ──────────────────
+new Chart(document.getElementById('chart-inviter'), {
+  type: 'bar',
+  data: {
+    labels: ['1 referral', '2 referrals', '3-4 referrals', '5+ referrals'],
+    datasets: [
+      { label: 'Made a purchase', data: [82, 74, 71, 66], backgroundColor: blue },
+      { label: 'Still active', data: [43, 30, 22, 16], backgroundColor: orange }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// ── 6b. Inviter Chain Chart ─────────────────────
+new Chart(document.getElementById('chart-inviter-chain'), {
+  type: 'bar',
+  data: {
+    labels: ['Best inviters', 'Middle tier', 'Least engaged'],
+    datasets: [
+      { label: 'Card activation rate', data: [84, 72, 52], backgroundColor: teal },
+      { label: 'Retention rate', data: [55, 37, 17], backgroundColor: purple }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// ── 7. Counterfactual Chart ─────────────────────
+new Chart(document.getElementById('chart-counterfactual'), {
+  type: 'bar',
+  data: {
+    labels: ['Current program', 'Active inviter only', 'Active + max 3', 'Active + max 1'],
+    datasets: [{
+      label: 'Cost per active customer',
+      data: [74, 54, 52, 49],
+      backgroundColor: [red, orange, green, blue]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.raw } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => '$' + v } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

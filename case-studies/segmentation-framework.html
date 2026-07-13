@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Segmentation Framework | Clara Tang</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container--wide nav__inner">
+    <a href="../index.html" class="nav__brand">Clara Tang</a>
+    <ul class="nav__links">
+      <li><a href="../index.html#case-studies">All Case Studies</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="case-hero container">
+  <span class="case-hero__tag">Marketing Analytics</span>
+  <h1>Candidate Segmentation Framework for a Major Job Platform</h1>
+  <p class="case-hero__meta">Lifecycle segmentation &middot; 283 candidates, 3 segments &middot; BTL/ATL marketing strategy</p>
+</header>
+
+<main class="container">
+
+  <!-- Executive Summary -->
+  <section class="section">
+    <h2>Executive Summary</h2>
+    <p>The platform's existing segmentation told Marketing <em>who was active</em>, but not <em>what to do about it</em>. Two candidates with identical activity levels could be in completely different mindsets: one passively browsing at lunch, the other applying to everything they can find. Sending them the same email means one message is always wrong.</p>
+    <p>I designed a lifecycle-based segmentation framework with six stages, mapped each stage to specific marketing actions (both below and above the line), specified the technical requirements to keep it running, and analysed a sample dataset to validate the approach.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat__value">6</span>
+        <span class="stat__label">Lifecycle stages</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">283</span>
+        <span class="stat__label">Candidates analysed</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">16.4%</span>
+        <span class="stat__label">Top segment conversion</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">12.0%</span>
+        <span class="stat__label">Lowest segment conversion</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. The Problem -->
+  <section class="section">
+    <h2>1. The Problem</h2>
+    <p>The platform already had candidate segments, but they described activity levels rather than intent. The brief asked for a framework that could drive "relevant and timely communications through the job search process." That is a lifecycle prompt: the segmentation needs to tell Marketing what action to take, when, and through which channel.</p>
+    <p>I evaluated three possible segmentation axes:</p>
+    <ul>
+      <li><strong>Demographic</strong> (industry, seniority): tells Marketing <em>who</em> someone is, but not what to do</li>
+      <li><strong>Value-based</strong> (engagement score): ranks candidates, but does not map to actions</li>
+      <li><strong>Lifecycle stage</strong>: tells Marketing <em>what to do</em>, because each stage implies a different message, channel, and frequency</li>
+    </ul>
+    <p>The test: what would change in the email a candidate receives depending on which segment they are in? If the answer is "not much," the segmentation is not actionable enough.</p>
+  </section>
+
+  <!-- 2. Framework Design -->
+  <section class="section">
+    <h2>2. The Framework</h2>
+    <p>Six lifecycle stages, defined by measurable behavioural signals. The framework is cyclical: candidates move backwards as well as forwards. Someone dormant can re-engage and jump to Warming Up. A new candidate who applies on day one skips straight to Actively Applying.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Lifecycle stages and behavioural signals</div>
+      <canvas id="chart-stages"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Stage</th><th>Definition</th><th>Key Signal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>New</strong></td><td>Profile created &lt;14 days, &lt;5 job views, no applications</td><td>Account creation</td></tr>
+          <tr><td><strong>Passive</strong></td><td>Active in last 30 days, &lt;3 visits/month, &lt;5% view-to-apply ratio</td><td>Low frequency browsing</td></tr>
+          <tr><td><strong>Warming Up</strong></td><td>Visit frequency doubled over prior 30 days, OR profile/resume updated</td><td>Acceleration in activity</td></tr>
+          <tr><td><strong>Actively Applying</strong></td><td>3+ applications in 14 days, weekly visits</td><td>High intent, high volume</td></tr>
+          <tr><td><strong>Slowing Down</strong></td><td>Was Actively Applying within 30 days, activity dropped 50%+</td><td>Deceleration from peak</td></tr>
+          <tr><td><strong>Dormant</strong></td><td>No activity for 30+ days after a previously active stage</td><td>Absence of signal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Design principle:</strong> Stages evaluate highest-intent first. If a candidate qualifies for multiple stages, they are assigned to the highest. This keeps the framework mutually exclusive without multi-label complexity.
+    </div>
+
+    <p>One refinement worth making in version two: Dormant covers two meaningfully different states. A candidate pausing their search needs a different win-back approach to one who disengaged because they found a job. Splitting these, or at least tagging the likely cause from prior-stage behaviour, would sharpen the re-engagement strategy.</p>
+
+    <h3>Enrichment attributes</h3>
+    <p>The lifecycle stage tells Marketing <em>what</em> to say. Enrichment attributes tell them <em>how</em> to reach the candidate: industry preference, channel preference, peak activity time, profile completeness, location, and career level. Each attribute has a reliability rating, because Marketing should not personalise by industry if a candidate has only viewed 3 jobs.</p>
+  </section>
+
+  <!-- 3. Marketing Application -->
+  <section class="section">
+    <h2>3. How the Framework Feeds Marketing</h2>
+
+    <h3>Below the line: stage-specific communication</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Stage</th><th>Hypothesis</th><th>Channel</th><th>Frequency</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>New</strong></td><td>Profile completion within 14 days predicts transition to Actively Applying</td><td>Email + onsite prompts</td><td>High, taper after 14 days</td></tr>
+          <tr><td><strong>Passive</strong></td><td>Fewer, high-relevance recommendations maintain engagement without fatigue</td><td>Weekly email digest</td><td>Low</td></tr>
+          <tr><td><strong>Warming Up</strong></td><td>Increased recommendations accelerate transition to Actively Applying</td><td>Email + push + onsite</td><td>Increasing</td></tr>
+          <tr><td><strong>Actively Applying</strong></td><td>Reducing application friction increases completion rates</td><td>Onsite + app + email</td><td>High but relevant</td></tr>
+          <tr><td><strong>Slowing Down</strong></td><td>Reduced frequency with acknowledgement prevents disengagement</td><td>Email only</td><td>Low</td></tr>
+          <tr><td><strong>Dormant</strong></td><td>Earlier re-engagement (30 days) yields higher return than waiting 90 days</td><td>Email + display retargeting</td><td>Periodic (monthly)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Key insight:</strong> Frequency and tone change with each stage. A "Warming Up" candidate who gets passive weekly digests is being under-served. A "Slowing Down" candidate who gets daily emails is being annoyed. Matching communication intensity to lifecycle stage is how the platform builds the perception of relevance.
+    </div>
+
+    <h3>Above the line: stage distribution informs brand strategy</h3>
+    <p>Segment distribution tells Marketing what the brand priority should be. If the largest segment is Dormant, the priority is re-engagement. If Warming Up is growing fast, there is a market moment to capitalise on. Segment profiles also build sharper media briefs: "find more people who look like our Actively Applying segment" is far more precise than "target job seekers aged 25 to 45."</p>
+  </section>
+
+  <!-- 4. Data Analysis -->
+  <section class="section">
+    <h2>4. What the Sample Data Revealed</h2>
+    <p>I analysed 283 candidates across two months and three existing segments. The sample is small (patterns are directional, not conclusive), but three findings stood out.</p>
+
+    <h3>Conversion varies by segment</h3>
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">View-to-application conversion rate by segment</div>
+      <canvas id="chart-conversion"></canvas>
+    </div>
+
+    <p>Segment 2 converts at 16.4%, Segment 3 at 12.0%. Segment 3's gap persists across channels, so it is behavioural, not a channel problem. A lifecycle framework would diagnose whether they are passive browsers or application drop-offs. Segment 1 is excluded from this comparison: its average of 26.9 applications per applier masked a median of just 6.5, so a handful of power-appliers distort its headline rate.</p>
+
+    <h3>Timing patterns reveal candidate context</h3>
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Activity by hour of day, share of segment activity</div>
+      <canvas id="chart-timing"></canvas>
+      <p class="chart-note">Curves are smoothed for illustration. The anchored data points are the observed peaks: Segment 1 at 1pm, Segment 2 at 5pm (11.8% of all its activity in that single hour), Segment 3 at 7pm.</p>
+    </div>
+
+    <p>Segment 1 peaks at 1pm (desktop browsing during work hours). Segment 2 spikes at 5pm (post-shift healthcare and education workers). Segment 3 peaks at 7pm (evening mobile). This maps directly to send-time optimisation.</p>
+
+    <h3>Channel preference is industry-linked</h3>
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Channel dominance by segment type</div>
+      <canvas id="chart-channel"></canvas>
+      <p class="chart-note">Indicative channel mix. Observed signals from the data: Segment 1 is desktop-dominant, Segment 2 is the most channel-diverse, Segment 3 is iOS-dominant with the lowest multi-channel usage (31%).</p>
+    </div>
+
+    <div class="callout">
+      <strong>Key finding:</strong> ICT and Engineering candidates are desktop-dominant. Trades and Manufacturing are mobile-dominant. Campaign channel strategy should follow industry targeting, not segment labels. Segment 3 converts at roughly 12% regardless of channel, confirming the lower conversion is a behaviour pattern, not a channel friction issue.
+    </div>
+  </section>
+
+  <!-- 5. Technical Requirements -->
+  <section class="section">
+    <h2>5. Technical Requirements</h2>
+    <p>Four things need to be true for the framework to work operationally:</p>
+    <ol>
+      <li><strong>Daily recalculation.</strong> Lifecycle stages change fast. Weekly refresh risks sending a re-engagement email to someone who applied to five jobs yesterday.</li>
+      <li><strong>Segment tags reach all execution systems.</strong> Email, onsite personalisation, ad platforms. If the tag lives in a warehouse but cannot get to the ESP, it is just a report, not a tool.</li>
+      <li><strong>Quarterly threshold review.</strong> If 80% of candidates end up in one stage, the thresholds need tuning. This is expected drift, not failure.</li>
+      <li><strong>Segment distribution dashboard.</strong> Both the early warning system and how you prove value to leadership over time.</li>
+    </ol>
+
+    <h3>What breaks over time</h3>
+    <ul>
+      <li><strong>Thresholds go stale:</strong> behaviour shifts over months. Fix: quarterly review triggered by distribution skew alerts.</li>
+      <li><strong>Upstream data changes silently:</strong> a product team changes event logging and segments shift overnight. Fix: automated week-over-week distribution monitoring.</li>
+      <li><strong>No one owns the definitions:</strong> within a year, Marketing, Product, and Analytics use different versions of "Active." Fix: single owner with a version-controlled definition document.</li>
+    </ul>
+  </section>
+
+  <!-- 6. Week 1 Plan -->
+  <section class="section">
+    <h2>6. If This Is Week 1 on the Job</h2>
+    <ol>
+      <li><strong>Validate lifecycle stages against the full dataset.</strong> Does the distribution look reasonable, or does everything cluster in one stage?</li>
+      <li><strong>Build the segment distribution dashboard.</strong> The ongoing proof point and early warning system.</li>
+      <li><strong>Test one communication hypothesis.</strong> Start with Dormant win-back: easiest to measure, clear baseline, clear outcome.</li>
+      <li><strong>Sit down with the campaigns team.</strong> Ask what data they actually need. The enrichment attributes I proposed are my best guess from the outside. They will know what is missing.</li>
+    </ol>
+  </section>
+
+  <!-- Methodology -->
+  <section class="section">
+    <h2>7. Methodology</h2>
+    <p>Analysis worked in layers: event-level rates first, then candidate-level summary tables, then median vs average comparisons (which revealed that Segment 1's average of 26.9 applications per applier masked a median of just 6.5, driven by a few power-appliers). Final layer: cutting by channel, timing, and industry to check whether segment differences held or were explained by confounding variables.</p>
+    <ul>
+      <li>283 candidates, 2 months of data. Patterns are directional, not conclusive.</li>
+      <li>Channel and timing patterns are the most reliable findings at this sample size (consistent across the data, not driven by outliers).</li>
+      <li>Conversion rate differences (16.4% vs 12.0%) would need chi-squared testing on a full dataset to confirm.</li>
+      <li>Stage thresholds (14 days, 5 views, 3 visits per month) are starting points drawn from the sample distribution and domain knowledge. On the job, they would be validated against the platform's existing internal definitions and recalibrated quarterly against actual distribution data.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer container">
+  <p><a href="../index.html">&larr; Back to all case studies</a></p>
+  <p>Clara Tang &middot; 2026</p>
+</footer>
+
+<script>
+const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const cssVars = getComputedStyle(document.documentElement);
+const gridColor = isDark ? 'rgba(150,160,172,0.14)' : 'rgba(32,41,58,0.08)';
+const textColor = cssVars.getPropertyValue('--text-muted').trim();
+Chart.defaults.color = textColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+Chart.defaults.font.size = 12.5;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+const blue = cssVars.getPropertyValue('--chart-1').trim();
+const orange = cssVars.getPropertyValue('--chart-2').trim();
+const green = cssVars.getPropertyValue('--chart-3').trim();
+const purple = cssVars.getPropertyValue('--chart-4').trim();
+const red = cssVars.getPropertyValue('--chart-5').trim();
+const teal = cssVars.getPropertyValue('--chart-6').trim();
+const grey = isDark ? '#5c6673' : '#a8adb6';
+
+// Lifecycle stages as a horizontal bar showing relative duration/activity
+new Chart(document.getElementById('chart-stages'), {
+  type: 'bar',
+  data: {
+    labels: ['New', 'Passive', 'Warming Up', 'Actively Applying', 'Slowing Down', 'Dormant'],
+    datasets: [{
+      label: 'Expected relative activity level',
+      data: [30, 15, 55, 95, 40, 5],
+      backgroundColor: [teal, grey, orange, blue, purple, red]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const labels = ['Onboarding', 'Low engagement', 'Accelerating', 'Peak intent', 'Decelerating', 'Inactive'];
+        return labels[ctx.dataIndex];
+      }}}
+    },
+    scales: {
+      x: { display: false, max: 100 }
+    }
+  }
+});
+
+// Conversion rates
+new Chart(document.getElementById('chart-conversion'), {
+  type: 'bar',
+  data: {
+    labels: ['Segment 2 (Intentional Seekers)', 'Segment 3 (Mobile Explorers)'],
+    datasets: [{
+      label: 'View-to-application conversion rate',
+      data: [16.4, 12.0],
+      backgroundColor: [green, orange]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 20, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// Timing patterns
+new Chart(document.getElementById('chart-timing'), {
+  type: 'line',
+  data: {
+    labels: ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm','9pm','10pm'],
+    datasets: [
+      {
+        label: 'Segment 1 (Professional Browsers)',
+        data: [1,2,4,6,7,8,9,9.5,9,8,7,6,5,4,3,2,1],
+        borderColor: blue, backgroundColor: 'transparent', tension: 0.3, pointRadius: 2
+      },
+      {
+        label: 'Segment 2 (Intentional Seekers)',
+        data: [1,1,2,3,4,4,5,5,5,5,6,11.8,8,5,4,3,1],
+        borderColor: green, backgroundColor: 'transparent', tension: 0.3, pointRadius: 2
+      },
+      {
+        label: 'Segment 3 (Mobile Explorers)',
+        data: [0.5,1,2,3,3,4,4,5,5,5,5,6,8,10,9,6,3],
+        borderColor: orange, backgroundColor: 'transparent', tension: 0.3, pointRadius: 2
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v + '%' }, title: { display: true, text: '% of segment activity' } }
+    }
+  }
+});
+
+// Channel dominance
+new Chart(document.getElementById('chart-channel'), {
+  type: 'bar',
+  data: {
+    labels: [['Segment 1', '(Professional)'], ['Segment 2', '(Intentional)'], ['Segment 3', '(Mobile)']],
+    datasets: [
+      { label: 'Desktop/Web', data: [62, 38, 22], backgroundColor: blue },
+      { label: 'iOS App', data: [20, 30, 55], backgroundColor: green },
+      { label: 'Android App', data: [10, 18, 18], backgroundColor: orange },
+      { label: 'Email clickthrough', data: [8, 14, 5], backgroundColor: purple }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } }
+    },
+    scales: {
+      x: { stacked: true },
+      y: { stacked: true, max: 100, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

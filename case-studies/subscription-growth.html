@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Subscription Growth Analysis | Clara Tang</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container--wide nav__inner">
+    <a href="../index.html" class="nav__brand">Clara Tang</a>
+    <ul class="nav__links">
+      <li><a href="../index.html#case-studies">All Case Studies</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="case-hero container">
+  <span class="case-hero__tag">Data Analytics &amp; Growth Modelling</span>
+  <h1>Measuring Subscription Growth When the Data Does Not Make It Easy</h1>
+  <p class="case-hero__meta">D2C pet food &middot; 10,000 active cat subscriptions &middot; Q4 2021 growth model</p>
+</header>
+
+<main class="container">
+
+  <!-- Executive Summary -->
+  <section class="section">
+    <h2>Executive Summary</h2>
+    <p>A D2C pet food company needed to measure quarterly growth in active cat subscriptions. The challenge: six source tables at different grains (customer vs cat), no current subscription status column, ambiguous pause events, and orphaned records. I assessed data quality, designed a scalable data model, calculated Q4 2021 growth, and identified the primary churn drivers with commercial recommendations.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat__value">11.0%</span>
+        <span class="stat__label">Q4 growth rate</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">11,103</span>
+        <span class="stat__label">Closing active cats</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">52.8%</span>
+        <span class="stat__label">Pauses from non-payment</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">48%</span>
+        <span class="stat__label">Cancels from product fit</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Data Quality -->
+  <section class="section">
+    <h2>1. The Data Was Not Ready to Analyse</h2>
+    <p>Before any growth calculation, I ran a systematic data quality assessment across all six source tables. This surfaced issues that would have silently broken any downstream metrics.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Concern</th><th>Source</th><th>Risk</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>No current subscription status column; status must be inferred from events</td><td>cats</td><td><strong>High</strong></td></tr>
+          <tr><td>Pause and cancel events exist at the customer grain, not cat grain</td><td>pauses, cancellations</td><td><strong>High</strong></td></tr>
+          <tr><td>All 846 pause events have <code>paused_by_admin = True</code>; no customer-initiated pauses exist in the dataset</td><td>pauses</td><td><strong>High</strong></td></tr>
+          <tr><td>47% of Q4 pauses (398 of 846) have a null <code>unpaused_date</code></td><td>pauses</td><td><strong>High</strong></td></tr>
+          <tr><td>494 orphaned cat records (2.4%) have no matching customer</td><td>cats</td><td>Medium</td></tr>
+          <tr><td>16.7% of cancelled customers own multiple cats; true cat impact understated by ~11%</td><td>cancellations</td><td>Medium</td></tr>
+          <tr><td>63 duplicate cat name + owner pairs</td><td>cats</td><td>Medium</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Key decision:</strong> Paused cats are counted as not active for growth metrics. A cat paused with no <code>unpaused_date</code> at quarter end is counted as paused, not active. This is consistent with the subscription model but must be stated explicitly because the data does not make it obvious.
+    </div>
+  </section>
+
+  <!-- 2. Data Model -->
+  <section class="section">
+    <h2>2. Data Model Design</h2>
+    <p>I designed a medallion architecture (bronze, silver, gold) to handle the grain mismatches and enable scalable growth reporting.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Architecture layers and core entities</div>
+      <canvas id="chart-architecture"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Purpose</th><th>Key Tables</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Bronze</strong></td><td>Raw ingested tables, no transformations, audit trail preserved</td><td>Raw sources (6 tables)</td></tr>
+          <tr><td><strong>Silver</strong></td><td>Staged, cleaned, deduplicated, timezone-normalised</td><td><code>stg_customers</code>, <code>stg_cats</code>, <code>stg_events</code></td></tr>
+          <tr><td><strong>Gold</strong></td><td>Analytical mart: fact + dimension tables, pre-aggregated growth mart</td><td><code>fact_subscription_events</code>, <code>dim_customer</code>, <code>dim_cat</code>, <code>dim_reason</code>, <code>mart_growth_daily</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The core design decision: a <code>fact_subscription_events</code> table with one row per state-change event per cat (SCD Type 2 snapshot pattern). Columns: <code>cat_id</code>, <code>from_status</code>, <code>to_status</code>, <code>event_timestamp</code>, <code>reason_id</code>. This resolves the grain mismatch by converting customer-level events to cat-level events during the silver-to-gold transformation.</p>
+
+    <h3>From model to data product</h3>
+    <p>The model feeds a growth dashboard built for the Growth team's operating rhythm. Must-haves:</p>
+    <ul>
+      <li><strong>KPI row:</strong> current active cats and net growth, shown as counts, dollars, and percentage change</li>
+      <li><strong>Waterfall chart:</strong> opening &rarr; acquisitions &rarr; reactivations &rarr; resumptions &rarr; pauses &rarr; cancellations &rarr; closing</li>
+      <li><strong>Cohort retention grid:</strong> percentage of acquired cats still active by month since acquisition</li>
+      <li><strong>Reason breakdowns:</strong> top cancel and pause reasons as ranked bars</li>
+      <li><strong>Side filters:</strong> product and customer segment toggles, so different stakeholders can self-serve their own cut</li>
+      <li><strong>Drill-through table:</strong> individual cat-level events for operational use</li>
+    </ul>
+  </section>
+
+  <!-- 3. Growth Calculation -->
+  <section class="section">
+    <h2>3. Q4 2021 Growth: +11.0%</h2>
+    <p>Starting from a baseline of 10,000 active cats at 30 September 2021:</p>
+
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Q4 2021 subscription waterfall</div>
+      <canvas id="chart-waterfall"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Count</th><th>% of Opening Base</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Opening active (Sep 30)</td><td>10,000</td><td></td></tr>
+          <tr><td>+ New acquisitions (Q4)</td><td>+3,517</td><td>+35.2%</td></tr>
+          <tr><td>- Still paused at Dec 31</td><td>-514</td><td>-5.1%</td></tr>
+          <tr><td>- Net cancellations (not reactivated)</td><td>-1,900</td><td>-19.0%</td></tr>
+          <tr><td><strong>= Closing active (Dec 31)</strong></td><td><strong>~11,103</strong></td><td><strong>+11.0%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Growth rate:</strong> QoQ growth of 11.0%. Strong acquisition (+35.2% of opening base) offset significant churn (-19.0% net cancellations). The gap between gross acquisition and net growth signals a retention problem worth investigating.
+    </div>
+  </section>
+
+  <!-- 4. Churn Analysis -->
+  <section class="section">
+    <h2>4. What Is Driving Churn?</h2>
+
+    <h3>Pause reasons: mostly involuntary</h3>
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Pause reason breakdown (Q4 2021, 846 events)</div>
+      <canvas id="chart-pauses"></canvas>
+    </div>
+
+    <p>52.8% of pauses are "Did not pay order" (reason_id 1), flagged as involuntary. These must be separated before any voluntary churn analysis is meaningful. They point to payment workflow barriers that need investigation. Within the voluntary remainder, over half of recorded reasons land in "Other", so the usable signal is limited until the taxonomy improves.</p>
+
+    <h3>Cancel reasons: product fit is the primary driver</h3>
+    <div class="chart-wrap">
+      <div class="chart-wrap__title">Cancel reason breakdown (voluntary cancellations)</div>
+      <canvas id="chart-cancels"></canvas>
+      <p class="chart-note">Product fit combines "cat didn't like food", "gone off food", and "tummy trouble transitioning".</p>
+    </div>
+
+    <div class="callout">
+      <strong>Key finding:</strong> 48% of voluntary cancellations relate to product fit: "cat didn't like food," "gone off food," and "tummy trouble transitioning." Interventions should focus on flavour variety, trial packs, and transition support. However, 27% of cancel reasons and 55% of pause reasons land in "Other" or "Unknown," meaning signal is lost at collection. Improving the taxonomy is a prerequisite for reliable retention analysis.
+    </div>
+  </section>
+
+  <!-- 5. Recommendations -->
+  <section class="section">
+    <h2>5. Recommendations</h2>
+
+    <h3>Improve data before improving retention</h3>
+    <ul>
+      <li><strong>Fix the reasons taxonomy.</strong> With 27% of cancels and 55% of pauses as "Other," you cannot diagnose churn drivers reliably. Reduce these categories before running retention interventions.</li>
+      <li><strong>Add subscription status at the cat grain.</strong> Define and align on Active/Inactive definitions across teams. Currently, status must be inferred from event sequences.</li>
+      <li><strong>Implement snapshot data.</strong> Eliminates double-counting of intra-period cyclers (cats that pause and resume within the same quarter).</li>
+    </ul>
+
+    <h3>Address product fit churn</h3>
+    <ul>
+      <li>48% of voluntary cancels are product fit issues. Test flavour variety packs and structured transition support for new cats.</li>
+      <li>Run cohort analysis by acquisition channel to identify whether low-fit customers are being attracted by specific campaigns.</li>
+    </ul>
+
+    <h3>Recover paused subscriptions</h3>
+    <ul>
+      <li>60.8% of Q4 pauses are still paused at December 31. Target these with structured reactivation campaigns, especially those with known reasons (freezer space, food preference).</li>
+      <li>Investigate the payment workflow for the 52.8% of non-payment pauses. Understand barriers and assess the need for a payment recovery programme.</li>
+    </ul>
+
+    <h3>Extend the analysis</h3>
+    <ul>
+      <li>Pause-to-cancel conversion rate: what % of paused cats eventually cancel?</li>
+      <li>Time-to-cancel from first subscription (early churn vs mature churn)</li>
+      <li>Average subscription revenue per cat to size the commercial impact</li>
+      <li>NPS/CSAT data correlated with pause and cancel behaviour</li>
+    </ul>
+  </section>
+
+  <!-- Methodology -->
+  <section class="section">
+    <h2>6. Methodology and Assumptions</h2>
+    <ul>
+      <li>One active subscription assumed per cat (not per customer)</li>
+      <li>Pause and cancel events within Q4 are assumed to originate from the opening active pool of 10,000</li>
+      <li>A "resume" is inferred as: <code>pause_end IS NOT NULL AND subsequent status = active</code></li>
+      <li>A "reactivation" is inferred as: a new active period following a cancel event</li>
+      <li>Non-payment pauses are included in growth metrics (the cat is still not active) but excluded from voluntary churn analysis</li>
+      <li>Referential integrity check: 494 orphaned cat records (2.4%) excluded from analysis</li>
+      <li>Deduplication applied using <code>ROW_NUMBER() OVER (PARTITION BY cat_id, event_type ORDER BY event_timestamp)</code></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer container">
+  <p><a href="../index.html">&larr; Back to all case studies</a></p>
+  <p>Clara Tang &middot; 2026</p>
+</footer>
+
+<script>
+const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const cssVars = getComputedStyle(document.documentElement);
+const gridColor = isDark ? 'rgba(150,160,172,0.14)' : 'rgba(32,41,58,0.08)';
+const textColor = cssVars.getPropertyValue('--text-muted').trim();
+Chart.defaults.color = textColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+Chart.defaults.font.size = 12.5;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+const blue = cssVars.getPropertyValue('--chart-1').trim();
+const orange = cssVars.getPropertyValue('--chart-2').trim();
+const green = cssVars.getPropertyValue('--chart-3').trim();
+const purple = cssVars.getPropertyValue('--chart-4').trim();
+const red = cssVars.getPropertyValue('--chart-5').trim();
+const teal = cssVars.getPropertyValue('--chart-6').trim();
+const grey = isDark ? '#5c6673' : '#a8adb6';
+
+// Architecture layers
+new Chart(document.getElementById('chart-architecture'), {
+  type: 'bar',
+  data: {
+    labels: ['Bronze (Raw)', 'Silver (Staged)', 'Gold (Mart)'],
+    datasets: [{
+      label: 'Tables/entities',
+      data: [6, 3, 5],
+      backgroundColor: [orange, blue, green]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => {
+        const details = [
+          '6 raw source tables (customers, cats, pauses, cancellations, etc.)',
+          '3 staged entities (stg_customers, stg_cats, stg_events)',
+          '5 gold tables (fact_subscription_events, dim_customer, dim_cat, dim_reason, mart_growth_daily)'
+        ];
+        return details[ctx.dataIndex];
+      }}}
+    },
+    scales: { x: { beginAtZero: true, max: 8, ticks: { stepSize: 1 } } }
+  }
+});
+
+// Waterfall
+new Chart(document.getElementById('chart-waterfall'), {
+  type: 'bar',
+  data: {
+    labels: [['Opening', '(Sep 30)'], ['New', 'acquisitions'], ['Still', 'paused'], ['Net', 'cancellations'], ['Closing', '(Dec 31)']],
+    datasets: [{
+      label: 'Active cats',
+      data: [
+        [0, 10000],
+        [10000, 13517],
+        [13517, 13003],
+        [13003, 11103],
+        [0, 11103]
+      ],
+      backgroundColor: [blue, green, orange, red, teal]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const vals = [10000, 3517, -514, -1900, 11103];
+            const v = vals[ctx.dataIndex];
+            return (v > 0 && ctx.dataIndex > 0 && ctx.dataIndex < 4 ? '+' : '') + v.toLocaleString() + ' cats';
+          }
+        }
+      }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 15000, ticks: { callback: v => (v/1000) + 'k' } }
+    }
+  }
+});
+
+// Pause reasons
+new Chart(document.getElementById('chart-pauses'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Did not pay order (involuntary)', 'All other pause reasons'],
+    datasets: [{
+      data: [52.8, 47.2],
+      backgroundColor: [red, grey]
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.raw + '%' } }
+    }
+  }
+});
+
+// Cancel reasons
+new Chart(document.getElementById('chart-cancels'), {
+  type: 'bar',
+  data: {
+    labels: [['Product fit', '(3 combined reasons)'], 'Other / Unknown', 'Remaining named reasons'],
+    datasets: [{
+      label: '% of voluntary cancellations',
+      data: [48, 27, 25],
+      backgroundColor: [red, grey, blue]
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.raw + '% of cancellations' } }
+    },
+    scales: { x: { beginAtZero: true, max: 55, ticks: { callback: v => v + '%' } } }
+  }
+});
+</script>
+
+</body>
+</html>
