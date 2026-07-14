@@ -455,36 +455,43 @@ h1, h2, h3 { font-family: var(--font-display); }
 
 /* ── Tool stack ──────────────────────────────── */
 .toolstack {
-  margin: 1.75rem 0;
-  max-width: 68ch;
+  margin: 2rem 0;
 }
 
-.toolstack__row {
-  display: flex;
-  gap: 1.25rem;
-  padding: 0.7rem 0;
-  border-top: 1px solid var(--hairline);
+.toolstack__group {
+  margin-bottom: 1.4rem;
+}
+
+.toolstack__group:last-child {
+  margin-bottom: 0;
 }
 
 .toolstack__label {
-  flex: 0 0 auto;
-  width: 160px;
+  display: block;
   color: var(--text-muted);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
-  padding-top: 0.15rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.7rem;
 }
 
-.toolstack__items {
+.toolstack__tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toolstack__tags li {
+  font-size: 0.9rem;
   color: var(--text);
-  font-size: 0.98rem;
-}
-
-@media (max-width: 640px) {
-  .toolstack__row { flex-direction: column; gap: 0.25rem; }
-  .toolstack__label { width: auto; }
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.32rem 0.85rem;
 }
 
 /* ── Contact link ────────────────────────────── */
