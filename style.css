@@ -26,8 +26,9 @@
   --font-display: "Saira SemiCondensed", "Archivo Narrow", "Segoe UI", system-ui, sans-serif;
 }
 
+/* Dark theme, applied automatically to match the system unless the user has forced light */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #12161e;
     --bg-card: #1a202b;
     --bg-code: #232a35;
@@ -45,6 +46,26 @@
     --chart-5: #c47672;
     --chart-6: #6fadb4;
   }
+}
+
+/* Dark theme, applied when the user manually selects it */
+:root[data-theme="dark"] {
+  --bg: #12161e;
+  --bg-card: #1a202b;
+  --bg-code: #232a35;
+  --text: #e7e5de;
+  --text-muted: #9aa4b0;
+  --accent: #86b7d6;
+  --accent-hover: #a9cce3;
+  --border: #2a323e;
+  --hairline: #212833;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --chart-1: #6d9cbc;
+  --chart-2: #d29368;
+  --chart-3: #8aac8e;
+  --chart-4: #9d8cbc;
+  --chart-5: #c47672;
+  --chart-6: #6fadb4;
 }
 
 html { scroll-behavior: smooth; }
@@ -509,6 +530,52 @@ h1, h2, h3 { font-family: var(--font-display); }
 }
 
 .contact-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── Theme toggle ────────────────────────────── */
+body {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.about-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.about-head h2 {
+  margin-bottom: 0;
+}
+
+.theme-toggle {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.theme-toggle .hidden {
+  display: none;
+}
 
 /* ── Footer ──────────────────────────────────── */
 .footer {

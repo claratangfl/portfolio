@@ -6,6 +6,7 @@
   <title>Cat Subscription Growth Analysis | Clara Tang</title>
   <link rel="stylesheet" href="../style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 
@@ -224,7 +225,8 @@
 </footer>
 
 <script>
-const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const dt = document.documentElement.getAttribute('data-theme');
+const isDark = dt ? dt === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
 const cssVars = getComputedStyle(document.documentElement);
 const gridColor = isDark ? 'rgba(150,160,172,0.14)' : 'rgba(32,41,58,0.08)';
 const textColor = cssVars.getPropertyValue('--text-muted').trim();
