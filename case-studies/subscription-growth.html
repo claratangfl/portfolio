@@ -209,9 +209,24 @@
     </ul>
   </section>
 
-  <!-- Methodology -->
+  <!-- 6. Working With Stakeholders -->
   <section class="section">
-    <h2>6. Methodology and Assumptions</h2>
+    <h2>6. Working With Stakeholders</h2>
+    <p>A growth number is only as trustworthy as the data model behind it, and that model only gets built with the people who own the source systems and the ones who have to act on the result.</p>
+    <ul>
+      <li><strong>The Growth team</strong>, who need this number in their operating rhythm every quarter. The waterfall view (acquisitions, resumptions, pauses, cancellations) is designed for them: it shows not just the growth rate but which lever moved it.</li>
+      <li><strong>Data Engineering</strong>, who own the six source systems this analysis had to reconcile. Getting a current subscription status field added at the cat grain is a joint ask, not something an analyst can just build around forever.</li>
+      <li><strong>Product and Retention</strong>, on the pause and cancel reasons taxonomy. With over a quarter of reasons landing in "Other," fixing collection at the point of capture is a product change, and it only happens if the team that owns that flow sees why it matters.</li>
+      <li><strong>Finance</strong>, on how "still active" translates into revenue. Some churned customers were high-value while they lasted, and that distinction changes how urgent a fix looks.</li>
+    </ul>
+    <div class="callout">
+      <strong>Why this matters:</strong> a medallion architecture and a clean growth number are only the foundation. The 48% of cancellations tied to product fit only gets acted on once Retention agrees it is worth prioritising over other product work.
+    </div>
+  </section>
+
+  <!-- 7. Methodology -->
+  <section class="section">
+    <h2>7. Methodology and Assumptions</h2>
     <ul>
       <li>One active subscription assumed per cat (not per customer)</li>
       <li>Pause and cancel events within Q4 are assumed to originate from the opening active pool of 10,000</li>

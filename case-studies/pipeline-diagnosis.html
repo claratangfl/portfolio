@@ -188,9 +188,24 @@
     </ul>
   </section>
 
-  <!-- Methodology -->
+  <!-- 6. Working With Stakeholders -->
   <section class="section">
-    <h2>6. Methodology</h2>
+    <h2>6. Working With Stakeholders</h2>
+    <p>A 30/60/90 day plan is only worth writing if the teams named in it agree with the diagnosis. Getting there means working with each one on their own terms.</p>
+    <ul>
+      <li><strong>Sales and SDR leadership</strong>, on capacity and SLA compliance. Showing that 27% of MQLs miss the 2-day follow-up threshold only lands if it comes with an honest read on whether the team was ever resourced for a 3,270% volume spike.</li>
+      <li><strong>Marketing</strong>, on lead quality and the unqualified-lead trend. The volume spike changed the composition of the pipeline, not just its size, and that is a joint conversation about what "more leads" is actually worth if a growing share can never convert.</li>
+      <li><strong>RevOps</strong>, on the field mapping, routing logic, and the broken link between Lead ID and Originating Lead ID. This is the team that has to actually implement segmentation-based routing and the enrichment layer.</li>
+      <li><strong>Data Engineering</strong>, on validation at the point of capture. Phone and email format checks are a small technical change with an outsized effect on the 15% of leads lost to bad contact data.</li>
+    </ul>
+    <div class="callout">
+      <strong>Why this matters:</strong> the root cause split (capacity, system, data quality) only becomes a real 30/60/90 plan once each team recognises its own piece in the diagnosis, rather than reading it as someone else's problem.
+    </div>
+  </section>
+
+  <!-- 7. Methodology -->
+  <section class="section">
+    <h2>7. Methodology</h2>
     <ul>
       <li>Dataset: 33,076 leads with MQL and SAL timestamps, lead status, loss reasons, and owner assignments</li>
       <li>Missing SAL dates were treated as leads not yet converted to SAL</li>

@@ -201,9 +201,23 @@
     </ol>
   </section>
 
-  <!-- Methodology -->
+  <!-- 7. Working With Stakeholders -->
   <section class="section">
-    <h2>7. Methodology</h2>
+    <h2>7. Working With Stakeholders</h2>
+    <p>A segmentation framework is only as useful as the teams who execute against it. Building this one well means working with each of them from the start, not handing over a finished model.</p>
+    <ul>
+      <li><strong>Marketing and Campaigns</strong>, on message, channel, and frequency by stage. They are the ones who will actually decide what a "Warming Up" candidate receives, so the framework has to give them a lever, not just a label.</li>
+      <li><strong>Product and Engineering</strong>, on the data pipeline and event tracking. Daily recalculation and getting the segment tag into every downstream system (email, onsite, ad platforms) is an engineering build, and one that needs to be prioritised alongside everything else on their roadmap.</li>
+      <li><strong>Data and Analytics governance</strong>, on threshold ownership. Someone has to own what counts as "Actively Applying" going forward, or the definition quietly drifts until Marketing, Product, and Analytics are each working from a different one.</li>
+    </ul>
+    <div class="callout">
+      <strong>Why this matters:</strong> the framework's real test is not whether the stages are well defined, it is whether Marketing trusts the tag enough to change what they send, and that trust is built through the collaboration, not the model itself.
+    </div>
+  </section>
+
+  <!-- 8. Methodology -->
+  <section class="section">
+    <h2>8. Methodology</h2>
     <p>Analysis worked in layers: event-level rates first, then candidate-level summary tables, then median vs average comparisons (which revealed that Segment 1's average of 26.9 applications per applier masked a median of just 6.5, driven by a few power-appliers). Final layer: cutting by channel, timing, and industry to check whether segment differences held or were explained by confounding variables.</p>
     <ul>
       <li>283 candidates, 2 months of data. Patterns are directional, not conclusive.</li>
