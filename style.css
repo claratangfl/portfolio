@@ -136,6 +136,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 
 .nav__links {
   display: flex;
+  align-items: center;
   gap: 1.75rem;
   list-style: none;
 }
@@ -536,41 +537,29 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.about-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.about-head h2 {
-  margin-bottom: 0;
-}
-
 .theme-toggle {
-  flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: none;
+  border: none;
   border-radius: 999px;
   color: var(--text-muted);
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition: color 0.2s, background 0.2s;
 }
 
 .theme-toggle:hover {
   color: var(--accent);
-  border-color: var(--accent);
+  background: var(--bg-card);
 }
 
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .theme-toggle .hidden {
