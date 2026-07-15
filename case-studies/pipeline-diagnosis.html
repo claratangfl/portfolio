@@ -273,6 +273,8 @@
   }
   updateTocVisibility();
   window.addEventListener('resize', updateTocVisibility);
+  window.addEventListener('load', updateTocVisibility);
+  setTimeout(updateTocVisibility, 300);
 })();
 </script>
 
