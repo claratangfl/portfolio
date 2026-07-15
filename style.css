@@ -695,8 +695,8 @@ body {
   align-items: flex-end;
 }
 
-@media (min-width: 1300px) {
-  .case-toc { display: flex; }
+.case-toc.is-visible {
+  display: flex;
 }
 
 .case-toc button {

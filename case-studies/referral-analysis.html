@@ -300,6 +300,14 @@
     });
   }, { rootMargin: '-15% 0px -70% 0px' });
   headers.forEach(function(h){ observer.observe(h); });
+  function updateTocVisibility(){
+    var container = document.querySelector('main.container');
+    if (!container) return;
+    var available = window.innerWidth - container.getBoundingClientRect().right;
+    toc.classList.toggle('is-visible', available >= 150);
+  }
+  updateTocVisibility();
+  window.addEventListener('resize', updateTocVisibility);
 })();
 </script>
 
