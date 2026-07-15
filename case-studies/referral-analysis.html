@@ -278,7 +278,13 @@
   headers.forEach(function(h){
     var btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = h.textContent;
+    var tick = document.createElement('span');
+    tick.className = 'toc-tick';
+    var label = document.createElement('span');
+    label.className = 'toc-label';
+    label.textContent = h.textContent;
+    btn.appendChild(tick);
+    btn.appendChild(label);
     btn.addEventListener('click', function(){ h.scrollIntoView({behavior:'smooth', block:'start'}); });
     toc.appendChild(btn);
   });
