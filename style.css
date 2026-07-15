@@ -125,6 +125,7 @@ h1, h2, h3 { font-family: var(--font-display); }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1440px;
 }
 
 .nav__brand {
