@@ -23,6 +23,8 @@
   </div>
 </nav>
 
+<nav class="case-toc" aria-label="Section navigation"></nav>
+
 <header class="case-hero container">
   <span class="case-hero__tag">Data Analytics &amp; Growth Modelling</span>
   <h1>Measuring Subscription Growth From Imperfect Data</h1>
@@ -254,6 +256,33 @@
   });
   mq.addEventListener('change', function(){ if (!root.getAttribute('data-theme')) render(); });
   render();
+})();
+</script>
+
+<script>
+(function(){
+  var headers = Array.prototype.slice.call(document.querySelectorAll('main .section h2'));
+  var toc = document.querySelector('.case-toc');
+  if (!toc || !headers.length) return;
+  headers.forEach(function(h){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = h.textContent;
+    btn.addEventListener('click', function(){ h.scrollIntoView({behavior:'smooth', block:'start'}); });
+    toc.appendChild(btn);
+  });
+  var buttons = Array.prototype.slice.call(toc.children);
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var idx = headers.indexOf(entry.target);
+      if (idx === -1) return;
+      if (entry.isIntersecting) {
+        buttons.forEach(function(b){ b.classList.remove('active'); });
+        buttons[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  headers.forEach(function(h){ observer.observe(h); });
 })();
 </script>
 

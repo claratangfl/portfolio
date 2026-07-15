@@ -333,6 +333,7 @@ h1, h2, h3 { font-family: var(--font-display); }
   line-height: 1.15;
   margin-bottom: 0.85rem;
   text-wrap: balance;
+  scroll-margin-top: 90px;
 }
 
 .section h3 {
@@ -576,11 +577,11 @@ h1, h2, h3 { font-family: var(--font-display); }
   border-radius: 999px;
 }
 
-.role__major {
-  display: inline-block;
+.role .role__major {
   color: var(--text-muted);
-  font-size: 0.82rem;
-  font-style: italic;
+  font-size: 0.95rem;
+  max-width: none;
+  margin: 0.15rem 0 0.7rem;
 }
 
 .role__location {
@@ -678,6 +679,52 @@ body {
 
 .theme-toggle .hidden {
   display: none;
+}
+
+/* ── Case study floating TOC ─────────────────── */
+.case-toc {
+  position: fixed;
+  top: 50%;
+  right: 1.75rem;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 210px;
+}
+
+@media (min-width: 1320px) {
+  .case-toc { display: flex; }
+}
+
+.case-toc button {
+  display: block;
+  width: 100%;
+  text-align: right;
+  background: none;
+  border: none;
+  border-right: 2px solid transparent;
+  padding: 0.15rem 0.85rem 0.15rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.case-toc button:hover {
+  color: var(--text);
+}
+
+.case-toc button.active {
+  color: var(--accent);
+  font-weight: 600;
+  border-right-color: var(--accent);
 }
 
 /* ── Footer ──────────────────────────────────── */
