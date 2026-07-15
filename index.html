@@ -13,8 +13,10 @@
   <div class="container--wide nav__inner">
     <a href="index.html" class="nav__brand">Clara Tang</a>
     <ul class="nav__links">
-      <li><a href="#case-studies">Case Studies</a></li>
+      <li><a href="#case-studies">Analysis</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="ai-practice.html">AI</a></li>
       <li><button class="theme-toggle" type="button" aria-label="Toggle light or dark theme">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -41,7 +43,7 @@
       </div>
       <h3>Referral Quality Analysis for a Neobank</h3>
       <p>Analysed 6,393 referrals across two bonus tiers. Card activation and inviter quality drive retention far more than bonus size. Modelled policy changes that cut cost per active customer by 33%.</p>
-      <span class="card__link">View case study &rarr;</span>
+      <span class="card__link">View analysis &rarr;</span>
     </a>
 
     <a href="case-studies/subscription-growth.html" class="card">
@@ -51,7 +53,7 @@
       </div>
       <h3>Measuring Subscription Growth From Imperfect Data</h3>
       <p>Assessed six source tables for a D2C pet food company, designed a medallion architecture, and calculated 11% QoQ growth from a 10,000-subscription base. Product fit drives 48% of voluntary churn.</p>
-      <span class="card__link">View case study &rarr;</span>
+      <span class="card__link">View analysis &rarr;</span>
     </a>
 
     <a href="case-studies/pipeline-diagnosis.html" class="card">
@@ -61,7 +63,7 @@
       </div>
       <h3>Why Qualified Leads Stopped Converting</h3>
       <p>Diagnosed a pipeline breakdown across 33,076 leads for an HR SaaS platform after a 3,270% volume spike. Isolated capacity, data quality, and qualification causes, then delivered a 30/60/90 day plan.</p>
-      <span class="card__link">View case study &rarr;</span>
+      <span class="card__link">View analysis &rarr;</span>
     </a>
 
     <a href="case-studies/segmentation-framework.html" class="card">
@@ -71,7 +73,7 @@
       </div>
       <h3>A Lifecycle Segmentation Framework for a Job Platform</h3>
       <p>Designed a six-stage lifecycle framework mapped to specific marketing actions, then validated it against 283 candidates. Turns "who is active" into "what to do next" for each candidate.</p>
-      <span class="card__link">View case study &rarr;</span>
+      <span class="card__link">View analysis &rarr;</span>
     </a>
 
   </div>
@@ -81,7 +83,7 @@
   <h2>About me</h2>
   <p>My route into data was not a straight line. It started in accounting and management, wound through customer, revenue, and business operations, and landed in data analytics. I began on the ground floor in client support and implementation, learning how a business really works from the inside: what customers need, where processes break, and how frontline reality differs from the dashboard leadership sees. That ground-level fluency is what makes my analysis land.</p>
   <p>Across tech and not-for-profits, the work I care about most connects numbers to decisions: analysis that reframes how a room thinks, requirements that save months of rework, and data stories that shift something real for the business.</p>
-  <p>I'm a Melbourne local and a Startmate Women's Fellow, and I firmly believe rigorous analysis and warm working relationships sit on the same side of a great team. Always happy to connect, compare notes, or grab a (virtual) coffee.</p>
+  <p>I'm a Melbourne local and a Startmate Women's Fellow, and I firmly believe rigorous analysis and warm working relationships sit on the same side of a great team. Always happy to <a href="https://www.linkedin.com/in/claratangfl/" target="_blank" rel="noopener">connect</a>, compare notes, or grab a (virtual) coffee.</p>
 </section>
 
 <section class="container section" id="toolkit">
@@ -127,7 +129,7 @@
 </section>
 
 <footer class="footer container">
-  <p>Clara Tang &middot; 2026</p>
+  <p>Clara Tang &middot; 2026 &middot; <a href="https://www.linkedin.com/in/claratangfl/" target="_blank" rel="noopener">LinkedIn</a></p>
 </footer>
 
 <script>
@@ -144,8 +146,8 @@
   }
   function render(){
     var dark = effective() === 'dark';
-    sun.classList.toggle('hidden', !dark);
-    moon.classList.toggle('hidden', dark);
+    moon.classList.toggle('hidden', !dark);
+    sun.classList.toggle('hidden', dark);
     btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
   }
   btn.addEventListener('click', function(){

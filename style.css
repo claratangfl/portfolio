@@ -117,6 +117,10 @@ h1, h2, h3 { font-family: var(--font-display); }
   padding: 0.85rem 0;
 }
 
+#case-studies, #about, #toolkit {
+  scroll-margin-top: 90px;
+}
+
 .nav__inner {
   display: flex;
   align-items: center;
@@ -365,8 +369,8 @@ h1, h2, h3 { font-family: var(--font-display); }
 /* ── Stat row ────────────────────────────────── */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
   margin: 2.25rem 0 0.5rem;
 }
 
@@ -378,7 +382,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 
 .stat__value {
   font-family: var(--font-display);
-  font-size: 2.4rem;
+  font-size: clamp(1.3rem, 2.6vw, 1.85rem);
   font-weight: 600;
   color: var(--text);
   display: block;
@@ -519,6 +523,116 @@ h1, h2, h3 { font-family: var(--font-display); }
   padding: 0.32rem 0.85rem;
 }
 
+/* ── CV roles ────────────────────────────────── */
+.role {
+  background: var(--bg-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem 1.55rem;
+  margin-bottom: 1.25rem;
+}
+
+.role:last-child {
+  margin-bottom: 0;
+}
+
+.role__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.role h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.role__dates {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.role__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.55rem 0 0.9rem;
+}
+
+.role__org {
+  display: inline-block;
+  color: var(--org-fg, var(--accent));
+  background: var(--org-bg, color-mix(in srgb, var(--accent) 13%, transparent));
+  border: 1px solid var(--org-border, var(--org-bg, color-mix(in srgb, var(--accent) 28%, transparent)));
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.22rem 0.75rem;
+  border-radius: 999px;
+}
+
+.role__major {
+  display: inline-block;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+.role__location {
+  display: inline-block;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.role ul {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+.role li:last-child {
+  margin-bottom: 0;
+}
+
+/* ── CV section headers ──────────────────────── */
+.cv-section h2 {
+  color: var(--accent);
+}
+
+.cv-lede {
+  color: var(--text-muted);
+  max-width: 68ch;
+}
+
+.highlights-list {
+  margin-top: 1.75rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.highlights-list li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: 0.9rem;
+}
+
+.highlights-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 /* ── Contact link ────────────────────────────── */
 .contact-link {
   display: inline-block;
@@ -586,8 +700,12 @@ body {
   .cards { grid-template-columns: 1fr; }
   .case-hero h1 { font-size: 2.1rem; }
   .section h2 { font-size: 1.65rem; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
   .nav__links { gap: 1.1rem; }
+}
+
+@media (max-width: 560px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat__value { font-size: 1.7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

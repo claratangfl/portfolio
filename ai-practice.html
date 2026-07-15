@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Working With AI | Clara Tang</title>
+  <link rel="stylesheet" href="style.css">
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container--wide nav__inner">
+    <a href="index.html" class="nav__brand">Clara Tang</a>
+    <ul class="nav__links">
+      <li><a href="index.html">Back to portfolio</a></li>
+      <li><button class="theme-toggle" type="button" aria-label="Toggle light or dark theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="case-hero container">
+  <span class="case-hero__tag">How I Use AI</span>
+  <h1>Working With AI</h1>
+  <p class="case-hero__meta">Daily use, hands-on builds, no confidential code shown</p>
+</header>
+
+<main class="container">
+
+  <section class="section cv-section">
+    <h2>My approach</h2>
+    <p>I use AI daily, the same way I use SQL or a spreadsheet: as a tool that has to earn its place in the answer. I treat it as a copilot rather than an autopilot, useful for speed and for surfacing a first draft, but the judgement on what is true, what is worth shipping, and what the data actually supports stays with me. The pieces below describe what I have built and why, without sharing the underlying code or any confidential material.</p>
+  </section>
+
+  <section class="section cv-section">
+    <h2>What I've built</h2>
+
+    <div class="role">
+      <h3>A scheduled daily briefing</h3>
+      <p>Set up an automated morning briefing that pulls together the day's priorities and relevant context before I sit down to work, so the first half hour is spent acting rather than re-orienting. Small workflow, but it compounds daily.</p>
+    </div>
+
+    <div class="role">
+      <h3>Comparison tools</h3>
+      <p>Built lightweight tools that lay out options, offers, or decisions side by side, structured around the actual trade-off I am weighing rather than a generic template. Useful whenever a decision has more variables than fit comfortably in a spreadsheet.</p>
+    </div>
+
+    <div class="role">
+      <h3>Custom GPTs with guardrails</h3>
+      <p>Designed custom GPTs and prompt guardrails to keep AI-assisted writing consistent in tone and language, and to catch likely hallucinations before they reach a reader. The guardrail is as important as the output: knowing where a model is likely to overreach and building a check for it.</p>
+    </div>
+
+    <div class="role">
+      <h3>Vibe-coded tools</h3>
+      <p>Built working tools through AI-assisted coding without a traditional software engineering background, including this portfolio site and its interactive analyses. The skill here is not writing every line, it is knowing what to ask for, reading the output critically, and testing that it actually does what it claims to.</p>
+    </div>
+  </section>
+
+  <section class="section cv-section">
+    <h2>Where I draw the line</h2>
+    <p>AI output gets the same scrutiny I would apply to a junior analyst's first draft: checked against the source data, checked for overreach, and rewritten where it states something with more confidence than the evidence supports. That discipline is what makes AI useful for real work rather than a shortcut that creates more cleanup later.</p>
+  </section>
+
+</main>
+
+<footer class="footer container">
+  <p><a href="index.html">&larr; Back to portfolio</a></p>
+  <p>Clara Tang &middot; 2026 &middot; <a href="https://www.linkedin.com/in/claratangfl/" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.querySelector('.theme-toggle');
+  if (!btn) return;
+  var moon = btn.querySelector('.icon-moon');
+  var sun = btn.querySelector('.icon-sun');
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  function effective(){
+    var t = root.getAttribute('data-theme');
+    return t ? t : (mq.matches ? 'dark' : 'light');
+  }
+  function render(){
+    var dark = effective() === 'dark';
+    moon.classList.toggle('hidden', !dark);
+    sun.classList.toggle('hidden', dark);
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    var next = effective() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e){}
+    render();
+  });
+  mq.addEventListener('change', function(){ if (!root.getAttribute('data-theme')) render(); });
+  render();
+})();
+</script>
+
+</body>
+</html>

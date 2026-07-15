@@ -14,7 +14,11 @@
   <div class="container--wide nav__inner">
     <a href="../index.html" class="nav__brand">Clara Tang</a>
     <ul class="nav__links">
-      <li><a href="../index.html#case-studies">All Case Studies</a></li>
+      <li><a href="../index.html#case-studies">All Analyses</a></li>
+      <li><button class="theme-toggle" type="button" aria-label="Toggle light or dark theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button></li>
     </ul>
   </div>
 </nav>
@@ -220,9 +224,39 @@
 </main>
 
 <footer class="footer container">
-  <p><a href="../index.html">&larr; Back to all case studies</a></p>
-  <p>Clara Tang &middot; 2026</p>
+  <p><a href="../index.html">&larr; Back to all analyses</a></p>
+  <p>Clara Tang &middot; 2026 &middot; <a href="https://www.linkedin.com/in/claratangfl/" target="_blank" rel="noopener">LinkedIn</a></p>
 </footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.querySelector('.theme-toggle');
+  if (!btn) return;
+  var moon = btn.querySelector('.icon-moon');
+  var sun = btn.querySelector('.icon-sun');
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  function effective(){
+    var t = root.getAttribute('data-theme');
+    return t ? t : (mq.matches ? 'dark' : 'light');
+  }
+  function render(){
+    var dark = effective() === 'dark';
+    moon.classList.toggle('hidden', !dark);
+    sun.classList.toggle('hidden', dark);
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    var next = effective() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e){}
+    render();
+  });
+  mq.addEventListener('change', function(){ if (!root.getAttribute('data-theme')) render(); });
+  render();
+})();
+</script>
+
 
 <script>
 const dt = document.documentElement.getAttribute('data-theme');
