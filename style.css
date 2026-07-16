@@ -596,6 +596,13 @@ h1, h2, h3 { font-family: var(--font-display); }
   letter-spacing: 0.06em;
 }
 
+.role__scholarship {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+}
+
 .role ul {
   margin-top: 0.25rem;
   margin-bottom: 0;
