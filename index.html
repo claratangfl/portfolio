@@ -6,6 +6,7 @@
   <title>Clara Tang | Data Analytics Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -43,6 +44,7 @@
       </div>
       <h3>Referral Quality Analysis for a Neobank</h3>
       <p>Analysed 6,393 referrals across two bonus tiers. Card activation and inviter quality drive retention far more than bonus size. Modelled policy changes that cut cost per active customer by 33%.</p>
+      <div class="card__chart"><canvas id="mini-referral"></canvas></div>
       <span class="card__link">View analysis &rarr;</span>
     </a>
 
@@ -53,6 +55,7 @@
       </div>
       <h3>Measuring Subscription Growth From Imperfect Data</h3>
       <p>Assessed six source tables for a D2C pet food company, designed a medallion architecture, and calculated 11% QoQ growth from a 10,000-subscription base. Product fit drives 48% of voluntary churn.</p>
+      <div class="card__chart"><canvas id="mini-subscription"></canvas></div>
       <span class="card__link">View analysis &rarr;</span>
     </a>
 
@@ -63,6 +66,7 @@
       </div>
       <h3>Why Qualified Leads Stopped Converting</h3>
       <p>Diagnosed a pipeline breakdown across 33,076 leads for an HR SaaS platform after a 3,270% volume spike. Isolated capacity, data quality, and qualification causes, then delivered a 30/60/90 day plan.</p>
+      <div class="card__chart"><canvas id="mini-pipeline"></canvas></div>
       <span class="card__link">View analysis &rarr;</span>
     </a>
 
@@ -73,6 +77,7 @@
       </div>
       <h3>A Lifecycle Segmentation Framework for a Job Platform</h3>
       <p>Designed a six-stage lifecycle framework mapped to specific marketing actions, then validated it against 283 candidates. Turns "who is active" into "what to do next" for each candidate.</p>
+      <div class="card__chart"><canvas id="mini-segmentation"></canvas></div>
       <span class="card__link">View analysis &rarr;</span>
     </a>
 
@@ -158,6 +163,81 @@
   });
   mq.addEventListener('change', function(){ if (!root.getAttribute('data-theme')) render(); });
   render();
+})();
+</script>
+
+<script>
+(function(){
+  var dt = document.documentElement.getAttribute('data-theme');
+  var isDark = dt ? dt === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var cssVars = getComputedStyle(document.documentElement);
+  var textColor = cssVars.getPropertyValue('--text-muted').trim();
+  var gridColor = isDark ? 'rgba(150,160,172,0.14)' : 'rgba(32,41,58,0.08)';
+
+  Chart.defaults.color = textColor;
+  Chart.defaults.borderColor = gridColor;
+  Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  Chart.defaults.font.size = 11;
+
+  var blue = cssVars.getPropertyValue('--chart-1').trim();
+  var orange = cssVars.getPropertyValue('--chart-2').trim();
+  var green = cssVars.getPropertyValue('--chart-3').trim();
+  var purple = cssVars.getPropertyValue('--chart-4').trim();
+  var red = cssVars.getPropertyValue('--chart-5').trim();
+  var teal = cssVars.getPropertyValue('--chart-6').trim();
+  var grey = isDark ? '#5c6673' : '#a8adb6';
+
+  var miniOpts = { responsive: true, maintainAspectRatio: false, events: [], plugins: { legend: { display: false } } };
+
+  // Referral Quality Analysis — cost per referral / cost per active customer (from referral-analysis.html)
+  new Chart(document.getElementById('mini-referral'), {
+    type: 'bar',
+    data: {
+      labels: ['Cost per referral', 'Cost per active customer'],
+      datasets: [
+        { label: 'Jan ($5 bonus)', data: [14.69, 30.56], backgroundColor: blue },
+        { label: 'Feb ($10 bonus)', data: [23.55, 73.89], backgroundColor: orange }
+      ]
+    },
+    options: Object.assign({}, miniOpts, { scales: { y: { beginAtZero: true, ticks: { callback: function(v){ return '$' + v; } } } } })
+  });
+
+  // Subscription Growth — share of voluntary cancellations by reason (from subscription-growth.html)
+  new Chart(document.getElementById('mini-subscription'), {
+    type: 'bar',
+    data: {
+      labels: [['Product fit', '(3 combined reasons)'], 'Other / Unknown', 'Remaining named reasons'],
+      datasets: [{ label: '% of voluntary cancellations', data: [48, 27, 25], backgroundColor: [red, grey, blue] }]
+    },
+    options: Object.assign({}, miniOpts, { indexAxis: 'y', scales: { x: { beginAtZero: true, max: 55, ticks: { callback: function(v){ return v + '%'; } } } } })
+  });
+
+  // Pipeline Diagnosis — lead volume vs MQL→SAL conversion rate (from pipeline-diagnosis.html)
+  new Chart(document.getElementById('mini-pipeline'), {
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      datasets: [
+        { type: 'bar', label: 'Lead volume', data: [2703, 5559, 4302, 4254, 5514, 4519, 3879, 750], backgroundColor: blue, yAxisID: 'y', order: 2 },
+        { type: 'line', label: 'MQL→SAL conversion rate', data: [96, 88, 82, 78, 74, 65, 58, 52], borderColor: red, backgroundColor: 'transparent', tension: 0.3, pointRadius: 2, yAxisID: 'y1', order: 1 }
+      ]
+    },
+    options: Object.assign({}, miniOpts, {
+      scales: {
+        y: { beginAtZero: true, position: 'left', display: false },
+        y1: { beginAtZero: true, max: 100, position: 'right', display: false }
+      }
+    })
+  });
+
+  // Lifecycle Segmentation — relative activity level by stage (from segmentation-framework.html)
+  new Chart(document.getElementById('mini-segmentation'), {
+    type: 'bar',
+    data: {
+      labels: ['New', 'Passive', 'Warming Up', 'Actively Applying', 'Slowing Down', 'Dormant'],
+      datasets: [{ label: 'Expected relative activity level', data: [30, 15, 55, 95, 40, 5], backgroundColor: [teal, grey, orange, blue, purple, red] }]
+    },
+    options: Object.assign({}, miniOpts, { indexAxis: 'y', scales: { x: { display: false, max: 100 } } })
+  });
 })();
 </script>
 

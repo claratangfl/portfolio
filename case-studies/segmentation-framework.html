@@ -36,7 +36,7 @@
   <!-- Context -->
   <section class="section">
     <h2>Context</h2>
-    <p>A major job platform wanted a segmentation framework that could drive relevant, timely communication through a candidate's job search. Its existing segments described who was active, but not what to do about it. Two candidates with identical activity could be in completely different mindsets: one browsing idly at lunch, the other applying to everything in sight. Send them the same email and one message is always wrong.</p>
+    <p>A major job platform wanted a segmentation framework that could drive relevant, timely communication through a candidate's job search. Its existing segments described who was active, without indicating what to do about it. Two candidates with identical activity could be in completely different mindsets: one browsing idly at lunch, the other applying to everything in sight. Send them the same email and one message is always wrong.</p>
     <p>I designed a lifecycle segmentation framework with six stages, mapped each stage to specific marketing actions below and above the line, set out the technical requirements to keep it running, and tested it against a sample of 283 candidates. Conversion ranged from 12.0% to 16.4% across segments, and distinct timing and channel patterns showed when and how each group should be reached.</p>
 
     <div class="stats">
@@ -62,11 +62,11 @@
   <!-- 1. The Problem -->
   <section class="section">
     <h2>1. The Problem</h2>
-    <p>The platform already had candidate segments, but they described activity levels rather than intent. The brief asked for a framework that could drive "relevant and timely communications through the job search process." That is a lifecycle prompt: the segmentation needs to tell Marketing what action to take, when, and through which channel.</p>
+    <p>The platform already had candidate segments, describing activity levels without capturing intent. The brief asked for a framework that could drive "relevant and timely communications through the job search process." That is a lifecycle prompt: the segmentation needs to tell Marketing what action to take, when, and through which channel.</p>
     <p>I evaluated three possible segmentation axes:</p>
     <ul>
-      <li><strong>Demographic</strong> (industry, seniority): tells Marketing who someone is, but not what to do</li>
-      <li><strong>Value-based</strong> (engagement score): ranks candidates, but does not map to actions</li>
+      <li><strong>Demographic</strong> (industry, seniority): tells Marketing who someone is, without indicating what to do</li>
+      <li><strong>Value-based</strong> (engagement score): ranks candidates, without mapping to actions</li>
       <li><strong>Lifecycle stage</strong>: tells Marketing what to do, because each stage implies a different message, channel, and frequency</li>
     </ul>
     <p>The test: what would change in the email a candidate receives depending on which segment they are in? If the answer is "not much," the segmentation is not actionable enough.</p>
@@ -140,7 +140,7 @@
   <!-- 4. Data Analysis -->
   <section class="section">
     <h2>4. What the Sample Data Revealed</h2>
-    <p>I analysed 283 candidates across two months and three existing segments. The sample is small (patterns are directional, not conclusive), but three findings stood out.</p>
+    <p>I analysed 283 candidates across two months and three existing segments. The sample is small, so patterns should be read as directional signals; three findings stood out.</p>
 
     <h3>Conversion varies by segment</h3>
     <div class="chart-wrap">
@@ -148,7 +148,7 @@
       <canvas id="chart-conversion"></canvas>
     </div>
 
-    <p>Segment 2 converts at 16.4%, Segment 3 at 12.0%. Segment 3's gap persists across channels, so it is behavioural, not a channel problem. A lifecycle framework would diagnose whether they are passive browsers or application drop-offs. Segment 1 is excluded from this comparison: its average of 26.9 applications per applier masked a median of just 6.5, so a handful of power-appliers distort its headline rate.</p>
+    <p>Segment 2 converts at 16.4%, Segment 3 at 12.0%. Segment 3's gap persists across channels, pointing to a behavioural cause. A lifecycle framework would diagnose whether they are passive browsers or application drop-offs. Segment 1 is excluded from this comparison: its average of 26.9 applications per applier masked a median of just 6.5, so a handful of power-appliers distort its headline rate.</p>
 
     <h3>Timing patterns reveal candidate context</h3>
     <div class="chart-wrap">
@@ -167,7 +167,7 @@
     </div>
 
     <div class="callout">
-      <strong>Key finding:</strong> ICT and Engineering candidates are desktop-dominant. Trades and Manufacturing are mobile-dominant. Campaign channel strategy should follow industry targeting, not segment labels. Segment 3 converts at roughly 12% regardless of channel, confirming the lower conversion is a behaviour pattern, not a channel friction issue.
+      <strong>Key finding:</strong> ICT and Engineering candidates are desktop-dominant. Trades and Manufacturing are mobile-dominant. Campaign channel strategy should follow industry targeting. Segment 3 converts at roughly 12% regardless of channel, confirming the lower conversion reflects a behaviour pattern that holds across channels.
     </div>
   </section>
 
@@ -177,8 +177,8 @@
     <p>Four things need to be true for the framework to work operationally:</p>
     <ol>
       <li><strong>Daily recalculation.</strong> Lifecycle stages change fast. Weekly refresh risks sending a re-engagement email to someone who applied to five jobs yesterday.</li>
-      <li><strong>Segment tags reach all execution systems.</strong> Email, onsite personalisation, ad platforms. If the tag lives in a warehouse but cannot get to the ESP, it is just a report, not a tool.</li>
-      <li><strong>Quarterly threshold review.</strong> If 80% of candidates end up in one stage, the thresholds need tuning. This is expected drift, not failure.</li>
+      <li><strong>Segment tags reach all execution systems.</strong> Email, onsite personalisation, ad platforms. A tag that lives in a warehouse but cannot get to the ESP stays a report; reaching the ESP is what makes it a usable tool.</li>
+      <li><strong>Quarterly threshold review.</strong> If 80% of candidates end up in one stage, the thresholds need tuning. This is expected drift that the review process is designed to catch.</li>
       <li><strong>Segment distribution dashboard.</strong> Both the early warning system and how you prove value to leadership over time.</li>
     </ol>
 
@@ -204,14 +204,14 @@
   <!-- 7. Working With Stakeholders -->
   <section class="section">
     <h2>7. Working With Stakeholders</h2>
-    <p>A segmentation framework is only as useful as the teams who execute against it. Building this one well means working with each of them from the start, not handing over a finished model.</p>
+    <p>A segmentation framework is only as useful as the teams who execute against it. Building this one well means working with each of them from the start, involving them well before a finished model is handed over.</p>
     <ul>
-      <li><strong>Marketing and Campaigns</strong>, on message, channel, and frequency by stage. They are the ones who will actually decide what a "Warming Up" candidate receives, so the framework has to give them a lever, not just a label.</li>
+      <li><strong>Marketing and Campaigns</strong>, on message, channel, and frequency by stage. They are the ones who will actually decide what a "Warming Up" candidate receives, so the framework has to give them a lever to act on, alongside the label.</li>
       <li><strong>Product and Engineering</strong>, on the data pipeline and event tracking. Daily recalculation and getting the segment tag into every downstream system (email, onsite, ad platforms) is an engineering build, and one that needs to be prioritised alongside everything else on their roadmap.</li>
       <li><strong>Data and Analytics governance</strong>, on threshold ownership. Someone has to own what counts as "Actively Applying" going forward, or the definition quietly drifts until Marketing, Product, and Analytics are each working from a different one.</li>
     </ul>
     <div class="callout">
-      <strong>Why this matters:</strong> the framework's real test is not whether the stages are well defined, it is whether Marketing trusts the tag enough to change what they send, and that trust is built through the collaboration, not the model itself.
+      <strong>Why this matters:</strong> the framework's real test is whether Marketing trusts the tag enough to change what they send, and that trust is built through the collaboration as much as the model itself.
     </div>
   </section>
 
@@ -220,8 +220,8 @@
     <h2>8. Methodology</h2>
     <p>Analysis worked in layers: event-level rates first, then candidate-level summary tables, then median vs average comparisons (which revealed that Segment 1's average of 26.9 applications per applier masked a median of just 6.5, driven by a few power-appliers). Final layer: cutting by channel, timing, and industry to check whether segment differences held or were explained by confounding variables.</p>
     <ul>
-      <li>283 candidates, 2 months of data. Patterns are directional, not conclusive.</li>
-      <li>Channel and timing patterns are the most reliable findings at this sample size (consistent across the data, not driven by outliers).</li>
+      <li>283 candidates, 2 months of data. Patterns are directional at this sample size.</li>
+      <li>Channel and timing patterns are the most reliable findings at this sample size, holding consistently across the data with no single outlier driving them.</li>
       <li>Conversion rate differences (16.4% vs 12.0%) would need chi-squared testing on a full dataset to confirm.</li>
       <li>Stage thresholds (14 days, 5 views, 3 visits per month) are starting points drawn from the sample distribution and domain knowledge. On the job, they would be validated against the platform's existing internal definitions and recalibrated quarterly against actual distribution data.</li>
     </ul>

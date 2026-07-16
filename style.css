@@ -282,6 +282,12 @@ h1, h2, h3 { font-family: var(--font-display); }
   flex: 1;
 }
 
+.card__chart {
+  position: relative;
+  height: 130px;
+  margin-top: 1.1rem;
+}
+
 .card__link {
   margin-top: 1.4rem;
   font-family: var(--font-display);
