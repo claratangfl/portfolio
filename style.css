@@ -221,13 +221,14 @@ h1, h2, h3 { font-family: var(--font-display); }
 /* ── Case Study Cards (Landing) ──────────────── */
 .cards {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.4rem;
   padding: 1rem 0 4.5rem;
 }
 
 .card {
   position: relative;
+  min-width: 0;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -316,6 +317,11 @@ h1, h2, h3 { font-family: var(--font-display); }
 .card__chart {
   position: relative;
   height: 130px;
+  width: 100%;
+}
+
+.card__chart canvas {
+  width: 100% !important;
 }
 
 .card__link {
